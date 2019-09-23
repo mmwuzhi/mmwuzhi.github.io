@@ -34,6 +34,14 @@ table{border-collapse: collapse; border-spacing:0;}
 caption, th{text-align: left;}
 a:focus {outline:none;}
 
+body{color:#636767;line-height:1.75;background:#FFF;font-size:1.6rem;letter-spacing:0.1rem;font-family:"Overpass", "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "ヒラギノ明朝 ProN W3", Meiryo, sans-serif}a{color:#8babab}a:hover{color:#577979}
+
+#container{
+	width:1024px;
+	height:auto;
+    margin:0 auto;
+}
+
 h1 {
     color:lightblue;
     font-size: 35px;
