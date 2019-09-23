@@ -60,6 +60,17 @@ function showPic(whichpic){
     var description = document.getElementById("description");
     description.firstChild.nodeValue = text;
 }
+
+// alert去标题
+// window.alert = function (name) {
+//     const iframe = document.createElement('IFRAME');
+//     iframe.style.display = 'none';
+//     iframe.setAttribute('src', 'data:text/plain,');
+//     document.documentElement.appendChild(iframe);
+//     window.frames[0].window.alert(name);
+//     iframe.parentNode.removeChild(iframe);
+//   };
+
 alert("丢人了");
 // function countBodyChildren(){
 //     var body_element = document.getElementsByTagName("body")[0];
