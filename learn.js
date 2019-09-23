@@ -24,15 +24,15 @@ var current_date = new Date();
 
 var x=true;
 
-function change() {
-
-    if(x == true) {
-        document.getElementsByTagName('h1')[0].style.color = '#663399';
-        document.getElementsByTagName('h1')[0].style.textShadow = '3px 3px 3px #ADD8E6';
+var h1 =document.getElementsByTagName("h1")[0];
+h1.onclick = function change() {
+    if(x) {
+        h1.style.color = '#663399';
+        h1.style.textShadow = '3px 3px 3px #ADD8E6';
         x = false;
     }else{
-        document.getElementsByTagName('h1')[0].style.color = '#ADD8E6';
-        document.getElementsByTagName('h1')[0].style.textShadow = '3px 3px 3px #663399';
+        h1.style.color = '#ADD8E6';
+        h1.style.textShadow = '3px 3px 3px #663399';
         x = true;
     }
 }
@@ -60,7 +60,22 @@ function showPic(whichpic){
     var description = document.getElementById("description");
     description.firstChild.nodeValue = text;
 }
-
+function popUp(winURL){
+    window.open(winURL,"popup","width=320,height=480");
+}
+window.onload = prepareLinks;
+function prepareLinks(){
+    alert("丢人了");
+    var links = document.getElementsByTagName("a");
+    for(var i=0;i<links.length;i++){
+        if(links[i].getAttribute("class") == "popup"){
+            links[i].onclick = function(){
+                popUp(this.getAttribute("href"));
+                return false;
+            }
+        }
+    }
+}
 // alert去标题
 // window.alert = function (name) {
 //     const iframe = document.createElement('IFRAME');
@@ -71,7 +86,6 @@ function showPic(whichpic){
 //     iframe.parentNode.removeChild(iframe);
 //   };
 
-alert("丢人了");
 // function countBodyChildren(){
 //     var body_element = document.getElementsByTagName("body")[0];
 //     alert(body_element.childNodes.length);
