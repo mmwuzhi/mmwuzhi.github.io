@@ -60,6 +60,7 @@ function showPic(whichpic){
     var description = document.getElementById("description");
     description.firstChild.nodeValue = text;
 }
+alert("丢人了");
 // function countBodyChildren(){
 //     var body_element = document.getElementsByTagName("body")[0];
 //     alert(body_element.childNodes.length);
