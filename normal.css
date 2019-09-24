@@ -44,7 +44,7 @@ body{
 }
 
 #container{
-	width:1280px;
+	width:1100px;
 	height:auto;
     margin:0 auto;
 }
@@ -65,6 +65,9 @@ h1 {
     color: #738c8c;
     background-color:#eff9fc;
 }
+/* #profile li:nth-of-type(even){
+    background-color:lightyellow;
+} */
 .change{
     text-align: center;
     font-size: 16px;
@@ -92,4 +95,14 @@ h1 {
     max-width:100%;
     margin-top:1rem;
     margin-bottom:1rem
+}
+#outersite{
+    margin-top:50px;
+    clear:both;
+    float:left;
+    margin-left:20px;
+    font-size:15px;
+}
+#outersite a{
+    text-decoration:none;
 }

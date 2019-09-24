@@ -61,7 +61,7 @@ function showPic(whichpic){
     description.firstChild.nodeValue = text;
 }
 function popUp(winURL){
-    window.open(winURL,"popup","width=320,height=480");
+    window.open(winURL,"popup","width=1280,height=720");
 }
 window.onload = prepareLinks;
 function prepareLinks(){
