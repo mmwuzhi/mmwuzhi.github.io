@@ -24,7 +24,7 @@ var current_date = new Date();
 
 var x=true;
 
-var h1 =document.getElementsByTagName("h1")[0];
+var h1 = document.getElementsByTagName("h1")[0];
 h1.onclick = function change() {
     if(x) {
         h1.style.color = '#663399';
@@ -101,6 +101,10 @@ function addLoadEvent(func){
         }
     }
 }
+function pa(){
+    var para = document.createElement("p");
+}
+addLoadEvent(pa);
 
 // alert去标题
 // window.alert = function (name) {

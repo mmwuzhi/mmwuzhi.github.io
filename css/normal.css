@@ -48,14 +48,17 @@ body{
     letter-spacing:0.1rem;
     font-family:"Overpass", "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "ヒラギノ明朝 ProN W3", Meiryo, sans-serif
 }
-header{
+#header{
     flex: 0 0 auto;
+    width: 1100px;
+    margin:0 auto;
+    padding: 10px 0;
 }
 h1 {
     color:lightblue;
-    font-size: 35px;
+    font-size: 32px;
     font-weight:bold;
-    text-align:center;
+    text-align:left;
     text-shadow: 3px 3px 3px rebeccapurple;
 }
 #container{
@@ -63,6 +66,7 @@ h1 {
     width:1100px;
     overflow: hidden;
     margin:0 auto;
+    padding: 0 10px 100px 10px;
 }
 
 /* div{
@@ -110,7 +114,7 @@ h1 {
 footer{
     flex: 0 0 auto;
     width: 100%;
-    padding:30px 0 30px 0;
+    padding:30px 0;
     font-size:15px;
     background-color: #5bbee5;
 }
