@@ -60,12 +60,21 @@ function showPic(whichpic){
     var description = document.getElementById("description");
     description.firstChild.nodeValue = text;
 }
+function imgPage(){
+    var imgpage = document.getElementById("imgpage");
+    var links = imgpage.getElementsByTagName("a");
+    for(var i=0;i<links.length;i++){
+        links[i].onclick=function(){
+            showPic(this);
+            return false;
+        }
+    }
+}
+
 function popUp(winURL){
     window.open(winURL,"popup","width=1280,height=720");
 }
-window.onload = prepareLinks;
 function prepareLinks(){
-    alert("丢人了");
     var links = document.getElementsByTagName("a");
     for(var i=0;i<links.length;i++){
         if(links[i].getAttribute("class") == "popup"){
@@ -76,6 +85,12 @@ function prepareLinks(){
         }
     }
 }
+
+window.onload = function(){
+    prepareLinks();
+    imgPage();
+    alert("丢人了");
+};
 // alert去标题
 // window.alert = function (name) {
 //     const iframe = document.createElement('IFRAME');
