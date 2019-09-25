@@ -13,8 +13,8 @@ article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
-    margin: 0;
-    padding: 0;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
     border: 0;
     font-style:normal;
     font-weight: normal;
@@ -25,7 +25,10 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
     display: block;
 }
-html{overflow-y: scroll;}
+html{
+    height:100%;
+    overflow-y: scroll;
+}
 blockquote, q {quotes: none;}
 blockquote:before, blockquote:after,q:before, q:after {content: ''; content: none;}
 input, textarea{margin: 0; padding: 0;}
@@ -35,6 +38,9 @@ caption, th{text-align: left;}
 a:focus {outline:none;}
 
 body{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     color:#636767;
     line-height:1.75;
     background:#FFF;
@@ -42,13 +48,9 @@ body{
     letter-spacing:0.1rem;
     font-family:"Overpass", "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "ヒラギノ明朝 ProN W3", Meiryo, sans-serif
 }
-
-#container{
-	width:1100px;
-	height:auto;
-    margin:0 auto;
+header{
+    flex: 0 0 auto;
 }
-
 h1 {
     color:lightblue;
     font-size: 35px;
@@ -56,18 +58,28 @@ h1 {
     text-align:center;
     text-shadow: 3px 3px 3px rebeccapurple;
 }
+#container{
+    flex: 1 0 auto;
+    width:1100px;
+    overflow: hidden;
+    margin:0 auto;
+}
+
+/* div{
+    
+    border:1px solid #F00;
+} */
+
 #profile{
     font-size: 20px;
     float: left;
     text-align: center;
     margin-right:20px;
-    margin-left:20px;
     color: #738c8c;
+}
+#profile li:nth-of-type(odd){
     background-color:#eff9fc;
 }
-/* #profile li:nth-of-type(even){
-    background-color:lightyellow;
-} */
 .change{
     text-align: center;
     font-size: 16px;
@@ -96,13 +108,19 @@ h1 {
     margin-top:1rem;
     margin-bottom:1rem
 }
-#outersite{
-    margin-top:50px;
-    clear:both;
-    float:left;
-    margin-left:20px;
+footer{
+    flex: 0 0 auto;
+    width: 100%;
+    padding:30px 0 30px 0;
     font-size:15px;
+    background-color: #5bbee5;
 }
-#outersite a{
+footer .main{
+    width: 1100px;
+    padding: 0 40px;
+    margin:auto;
+}
+footer a{
     text-decoration:none;
+    color: white;
 }
