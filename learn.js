@@ -58,7 +58,7 @@ function showPic(whichpic){
     var noimg = document.getElementById("nullimg");
     noimg.setAttribute("src",source);
     if(document.getElementById("description")){
-        var text = whichpic.getAttribute("title");
+        var text = whichpic.getAttribute("title") ? whichpic.getAttribute("title"):"";
         var description = document.getElementById("description");
         description.firstChild.nodeValue = text;
     }
