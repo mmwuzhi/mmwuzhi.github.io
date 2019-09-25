@@ -53,23 +53,26 @@ for(var i=0;i<21;i++){
 }
 
 function showPic(whichpic){
+    if(!document.getElementById("nullimg")){return false;}
     var source = whichpic.getAttribute("href");
     var noimg = document.getElementById("nullimg");
     noimg.setAttribute("src",source);
-    var text = whichpic.getAttribute("title");
-    var description = document.getElementById("description");
-    description.firstChild.nodeValue = text;
+    if(document.getElementById("description")){
+        var text = whichpic.getAttribute("title");
+        var description = document.getElementById("description");
+        description.firstChild.nodeValue = text;
+    }
+    return true;
 }
 function imgPage(){
+    if(!document.getElementById("imgpage")) {return false;}
     var imgpage = document.getElementById("imgpage");
     var links = imgpage.getElementsByTagName("a");
     for(var i=0;i<links.length;i++){
-        links[i].onclick=function(){
-            showPic(this);
-            return false;
-        }
+        links[i].onclick=function(){return !showPic(this);}
     }
 }
+addLoadEvent(imgPage);
 
 function popUp(winURL){
     window.open(winURL,"popup","width=1280,height=720");
@@ -85,12 +88,20 @@ function prepareLinks(){
         }
     }
 }
+addLoadEvent(prepareLinks);
 
-window.onload = function(){
-    prepareLinks();
-    imgPage();
-    alert("丢人了");
-};
+function addLoadEvent(func){
+    var oldonload = window.onload;
+    if(typeof window.onload != 'function'){
+        window.onload = func;
+    }else{
+        window.onload = function(){
+            oldonload();
+            func();
+        }
+    }
+}
+
 // alert去标题
 // window.alert = function (name) {
 //     const iframe = document.createElement('IFRAME');
