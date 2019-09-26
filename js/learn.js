@@ -90,6 +90,32 @@ function prepareLinks(){
 }
 addLoadEvent(prepareLinks);
 
+function pa(){
+    var noimg = document.createElement("div");
+    noimg.setAttribute("id","noimg");
+    var description = document.createElement("p");
+    description.setAttribute("id","description");
+    var desctxt = document.createTextNode("↓かわいい↓");
+    description.appendChild(desctxt);
+    var nullimg = document.createElement("img");
+    nullimg.setAttribute("id","nullimg");
+    nullimg.setAttribute("src","image/erika.gif");
+    noimg.appendChild(description);
+    noimg.appendChild(nullimg);
+    var imgpage = document.getElementById("imgpage");
+    insertAfter(noimg,imgpage);
+};
+addLoadEvent(pa);
+
+
+function insertAfter(newElement,targetElement){
+    var parent = targetElement.parentNode;
+    if(parent.lastChild == targetElement){
+        parent.appendChild(newElement);
+    }else{
+        parent.insertBefore(newElement,targetElement.nextSibling);
+    }
+}
 function addLoadEvent(func){
     var oldonload = window.onload;
     if(typeof window.onload != 'function'){
@@ -101,11 +127,6 @@ function addLoadEvent(func){
         }
     }
 }
-function pa(){
-    var para = document.createElement("p");
-}
-addLoadEvent(pa);
-
 // alert去标题
 // window.alert = function (name) {
 //     const iframe = document.createElement('IFRAME');
