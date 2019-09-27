@@ -26,11 +26,11 @@ var x=true;
 
 var h1 = document.getElementsByTagName("h1")[0];
 h1.onclick = function change() {
-    if(x) {
+    if (x) {
         h1.style.color = '#663399';
         h1.style.textShadow = '3px 3px 3px #ADD8E6';
         x = false;
-    }else{
+    } else {
         h1.style.color = '#ADD8E6';
         h1.style.textShadow = '3px 3px 3px #663399';
         x = true;
@@ -47,40 +47,43 @@ h1.onclick = function change() {
 // alert(idol.length);
 
 var idol=document.getElementsByClassName("idol");
-for(var i=0;i<21;i++){
+for (var i=0;i<21;i++) {
     a = i + 1;  
-    idol[i].setAttribute("onClick","javascript:window.open('https://www.hinatazaka46.com/s/official/artist/" + a + "?ima=0000','_blank')");
+    idol[i].setAttribute("onClick",
+    "javascript:window.open('https://www.hinatazaka46.com/s/official/artist/"
+    + a + "?ima=0000','_blank')");
 }
 
-function showPic(whichpic){
-    if(!document.getElementById("nullimg")){return false;}
+function showPic(whichpic) {
+    if (!document.getElementById("nullimg")) {return false;}
     var source = whichpic.getAttribute("href");
     var noimg = document.getElementById("nullimg");
     noimg.setAttribute("src",source);
-    if(document.getElementById("description")){
-        var text = whichpic.getAttribute("title") ? whichpic.getAttribute("title"):"";
+    if (document.getElementById("description")) {
+        var text = whichpic.getAttribute("title")
+            ? whichpic.getAttribute("title"):"";
         var description = document.getElementById("description");
         description.firstChild.nodeValue = text;
     }
     return true;
 }
-function imgPage(){
-    if(!document.getElementById("imgpage")) {return false;}
+function imgPage() {
+    if (!document.getElementById("imgpage")) {return false;}
     var imgpage = document.getElementById("imgpage");
     var links = imgpage.getElementsByTagName("a");
-    for(var i=0;i<links.length;i++){
-        links[i].onclick=function(){return !showPic(this);}
+    for (var i=0;i<links.length;i++){
+        links[i].onclick=function() {return !showPic(this);}
     }
 }
 addLoadEvent(imgPage);
 
-function popUp(winURL){
+function popUp(winURL) {
     window.open(winURL,"popup","width=1280,height=720");
 }
-function prepareLinks(){
+function prepareLinks() {
     var links = document.getElementsByTagName("a");
-    for(var i=0;i<links.length;i++){
-        if(links[i].getAttribute("class") == "popup"){
+    for (var i=0;i<links.length;i++){
+        if (links[i].getAttribute("class") == "popup"){
             links[i].onclick = function(){
                 popUp(this.getAttribute("href"));
                 return false;
@@ -90,7 +93,7 @@ function prepareLinks(){
 }
 addLoadEvent(prepareLinks);
 
-function pa(){
+function pa() {
     var noimg = document.createElement("div");
     noimg.setAttribute("id","noimg");
     var description = document.createElement("p");
@@ -108,20 +111,20 @@ function pa(){
 addLoadEvent(pa);
 
 
-function insertAfter(newElement,targetElement){
+function insertAfter(newElement,targetElement) {
     var parent = targetElement.parentNode;
-    if(parent.lastChild == targetElement){
+    if (parent.lastChild == targetElement) {
         parent.appendChild(newElement);
-    }else{
+    } else {
         parent.insertBefore(newElement,targetElement.nextSibling);
     }
 }
-function addLoadEvent(func){
+function addLoadEvent(func) {
     var oldonload = window.onload;
-    if(typeof window.onload != 'function'){
+    if (typeof window.onload != 'function') {
         window.onload = func;
-    }else{
-        window.onload = function(){
+    } else {
+        window.onload = function() {
             oldonload();
             func();
         }
