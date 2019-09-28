@@ -52,6 +52,7 @@ function getBrowserInfo(){
 }
 document.getElementById('list').textContent = getBrowserInfo();
 
+
 $.getJSON('https://api.ipify.org?format=json', function(data){
     document.getElementById('list').textContent = getBrowserInfo() + "  IP:" + data.ip;
 });
