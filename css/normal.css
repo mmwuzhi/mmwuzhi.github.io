@@ -114,6 +114,7 @@ h1 {
 #list{
     float: right;
     color: #FFF;
+    text-align: right;
 }
 
 footer{

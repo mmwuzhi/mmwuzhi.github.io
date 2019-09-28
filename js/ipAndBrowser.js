@@ -50,11 +50,11 @@ function getBrowserInfo(){
         return arr;
     }
 }
-document.getElementById('list').textContent = getBrowserInfo();
+document.getElementById('browserinfo').textContent = getBrowserInfo();
 
 
 $.getJSON('https://api.ipify.org?format=json', function(data){
-    document.getElementById('list').textContent = getBrowserInfo() + "  IP:" + data.ip;
+    document.getElementById('userip').textContent = "IP:" + data.ip;
 });
 
 addLoadEvent(getBrowserInfo);
