@@ -15,4 +15,15 @@ function getNewContent() {
         alert("Sorry,your browser doesn\'t support XMLHttpRequest");
     }
 }
+function addLoadEvent(func) {
+    var oldonload = window.onload;
+    if (typeof window.onload != 'function') {
+        window.onload = func;
+    } else {
+        window.onload = function() {
+            oldonload();
+            func();
+        }
+    }
+}
 addLoadEvent(getNewContent);

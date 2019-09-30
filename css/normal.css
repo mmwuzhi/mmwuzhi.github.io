@@ -60,6 +60,7 @@ h1 {
     font-weight:bold;
     text-align:left;
     text-shadow: 3px 3px 3px rebeccapurple;
+    cursor: default;
 }
 #container{
     flex: 1 0 auto;
@@ -79,6 +80,9 @@ h1 {
     text-align: center;
     margin-right:20px;
     color: #738c8c;
+}
+.idol{
+    cursor:pointer;
 }
 #profile li:nth-of-type(odd){
     background-color:#eff9fc;
