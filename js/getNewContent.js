@@ -1,5 +1,5 @@
 function getNewContent() {
-    var request = getHTTPObject();
+    var request = new XMLHttpRequest();
     if (request) {
         request.open("GET", "example.txt" ,true);
         request.onreadystatechange = function() {
@@ -13,17 +13,6 @@ function getNewContent() {
         request.send(null);
     } else {
         alert("Sorry,your browser doesn\'t support XMLHttpRequest");
-    }
-}
-function addLoadEvent(func) {
-    var oldonload = window.onload;
-    if (typeof window.onload != 'function') {
-        window.onload = func;
-    } else {
-        window.onload = function() {
-            oldonload();
-            func();
-        }
     }
 }
 addLoadEvent(getNewContent);
