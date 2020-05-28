@@ -79,13 +79,6 @@ h1 {
     float: left;
     text-align: center;
     margin-right:20px;
-    color: #738c8c;
-}
-.idol{
-    cursor:pointer;
-}
-#profile li:nth-of-type(odd){
-    background-color:#eff9fc;
 }
 .change{
     text-align: center;
