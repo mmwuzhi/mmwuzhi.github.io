@@ -1,51 +1,45 @@
 <!DOCTYPE html>
-<h1 lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <link rel="icon" type="image/png" sizes="32x32" href="./image/icon.png">
-    <title>キュン</title>
-    <link rel="stylesheet" type="text/css" href="normal.css" >
-    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP|Overpass&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div id="container">
-        <label><h1>永遠の日向坂推し</h1></label>
-        <ul id="profile">メンバーページ
-            <label><li class="idol">井口 眞緒</li></label>
-            <label><li class="idol">潮 紗理菜</li></label>
-            <label><li class="idol">柿崎 芽実</li></label>
-            <label><li class="idol">影山 優佳</li></label>
-            <label><li class="idol">加藤 史帆</li></label>
-            <label><li class="idol">齊藤 京子</li></label>
-            <label><li class="idol">佐々木 久美</li></label>
-            <label><li class="idol">佐々木 美玲</li></label>
-            <label><li class="idol">高瀬 愛奈</li></label>
-            <label><li class="idol">高本 彩花</li></label>
-            <label><li class="idol">東村 芽依</li></label>
-            <label><li class="idol">金村 美玖</li></label>
-            <label><li class="idol">河田 陽菜</li></label>
-            <label><li class="idol">小坂 菜緒</li></label>
-            <label><li class="idol">富田 鈴花</li></label>
-            <label><li class="idol">丹生 明里</li></label>
-            <label><li class="idol">濱岸 ひより</li></label>
-            <label><li class="idol">松田 好花</li></label>
-            <label><li class="idol">宮田 愛萌</li></label>
-            <label><li class="idol">渡邉 美穂</li></label>
-            <label><li class="idol">上村 ひなの</li></label>
-        </ul>
-        <div class="change">
-            <ul>
-                <li><a href="image/75717480be8b917f2cbb1816bb5cd.jpg" onClick="showPic(this);return false;" title="東村芽依">めいめい</a></li>
-                <li><a href="image/myfish.jpg" onClick="showPic(this);return false;" title="小坂菜緒">マイフィッシュ</a></li>
-                <li><a href="image/($9$J)D_5EP1F3VA(JJEYDW.gif" onClick="showPic(this);return false;" title="金村美玖">玖玖</a></li>
-                <li><a href="image/nibu.jpg" onClick="showPic(this);return false;" title="丹生明里">にぶちゃん</a></li>
-            </ul>
-            <div id="noimg">
-                <p id="description">↓可愛い↓</p>
-                <img id="nullimg" src="image/erika.gif" />
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="icon" type="image/png" sizes="32x32" href="./image/icon.png">
+        <title>Chara</title>
+        <link rel="stylesheet" type="text/css" href="css/normal.css" >
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP|Overpass&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div id="header">
+            <h1>Chara</h1>
+        </div>
+        
+        <div id="container">
+            <div id="profile">
+                <form action="" method="POST">
+                    <table>
+                        <tr>
+                            <th>アカウントID：</th>
+                            <td><input type="text" name="account" /></td>
+                        </tr>
+                        <tr>
+                            <th>パスワード：</th>
+                            <td><input type="password"></td>
+                        </tr>
+                    </table>
+                    <input type="button" value="ログイン" name="login">
+                    <input type="button" value="自閉" onclick="window.location.href='zibi.html'">
+                </form>
             </div>
         </div>
-    </div>
-    <script src="learn.js"></script>
-</body>
-</h1>
+        <footer id="footer">
+            <div class="main">
+                <div id="list">
+                    <p id="browserinfo"></p>
+                    <p id="userip"></p>
+                </div>
+            </div>
+        </footer>
+        <script src="js/learn.js"></script>
+        <script src="js/ipAndBrowser.js"></script>
+    </body>
+</html>
