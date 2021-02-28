@@ -1,135 +1,89 @@
-function shout() {
-    var beatles = ["John", "Paul", "George", "Ringo"];
-    var lenoon = {name: "John", year: "1940", living: false};
-    /*beatles[0] = lenoon;
-    alert(beatles[0].name);
-    beatles = {};
-    beatles.vocalist = lenoon;
-    alert(beatles.vocalist.living);*/
-    for (var count = 0; count <= 3; count++) {
-        alert(beatles[count]);
+'use strict'
+
+// ::String => ::Document
+const  createDOMFromString = (domString) => {
+    const div = document.createElement('div')
+    div.innerHTML = domString
+    return div
+}
+
+class Component {
+    constructor (props = {}) {
+        this.props = props
+    }
+
+    setState (state) {
+        const oldEl = this.el
+        this.state = state
+        this._renderDOM()
+        if (this.onStateChange) this.onStateChange(oldEl, this.el)
+    }
+
+    _renderDOM () {
+        this.el = createDOMFromString(this.render())
+        if (this.onClick) {
+            // bind(this) 意思是 把实例化的的class里的this绑定给click事件创建的changeLikeText函数的this
+            // 让changeLikeText能用上实例化的class里的this.state
+            // 如果你传递一个函数名给一个变量，然后通过在变量后加括号’()'来调用这个方法，此时方法内部的this的指向就会丢失。
+            // fn.bind相当于创建一个新的fn fn的this等于bind的第一个参数 之后再加括号来调用新创建的fn
+            // fn.call()等于fn.bind()()
+            this.el.addEventListener('click', this.onClick.bind(this), false)
+            this.el.addEventListener('click', () => console.log('click'), false)
+        }
+        return this.el
     }
 }
 
-/*function convertToCelsius(undou) {
-    var sheshi_du = undou -32;
-    sheshi_du/=1.8;
-    return sheshi_du+"℃";
+class LikeButton extends Component{
+    constructor (props) {
+        super(props)
+        this.state = {isLiked: false}
+    }
+
+    onClick () {
+        this.setState({
+            isLiked: !this.state.isLiked
+        })
+    }
+
+    render () {
+        return`
+        <button class='like-button' style='background-color: ${this.props.bgColor}'>
+            <span class='like-text'>${this.state.isLiked ? 'キャンセル' : 'いいね！'}</span>
+            <span>👍</span>
+        </button>
+        `
+    }
 }
-var huashi_du = 95;
-var sheshi_du = convertToCelsius(huashi_du);
-alert(sheshi_du);*/
 
-var current_date = new Date();
+const mount = (component, wrapper) => {
+    wrapper.appendChild(component._renderDOM())
+    component.onStateChange = (oldEl, newEl) => {
+        wrapper.insertBefore(newEl, oldEl)
+        wrapper.removeChild(oldEl)
+    }
+}
 
-var x=true;
+const wrapper = document.querySelector('.wrapper')
+mount(new LikeButton({ bgColor: 'red'}), wrapper)
 
-var h1 = document.getElementsByTagName("h1")[0];
+
+
+let x=true;
+
+const h1 = document.getElementsByTagName("h1")[0];
 h1.onclick = function change() {
     if (x) {
-        h1.style.color = '#663399';
-        h1.style.textShadow = '3px 3px 3px #ADD8E6';
-        x = false;
+        h1.style.color = '#663399'
+        h1.style.textShadow = '3px 3px 3px #ADD8E6'
+        x = false
     } else {
-        h1.style.color = '#ADD8E6';
-        h1.style.textShadow = '3px 3px 3px #663399';
-        x = true;
+        h1.style.color = '#ADD8E6'
+        h1.style.textShadow = '3px 3px 3px #663399'
+        x = true
     }
 }
-// var members = document.getElementsByTagName("li");
-// for(var i=0;i<members.length;i++){
-//     alert(members[i].getAttribute("onClick"));
-// }
-// var link = document.getElementById("profile");
-// var items = link.getElementsByTagName("*");
-// alert(items.length);
-// var idol = document.getElementsByClassName("idol");
-// alert(idol.length);
 
-var idol=document.getElementsByClassName("idol");
-for (var i=0;i<21;i++) {
-    a = i + 1;  
-    idol[i].setAttribute("onClick",
-    "javascript:window.open('https://www.hinatazaka46.com/s/official/artist/"
-    + a + "?ima=0000','_blank')");
-}
-
-function showPic(whichpic) {
-    if (!document.getElementById("nullimg")) {return false;}
-    var source = whichpic.getAttribute("href");
-    var noimg = document.getElementById("nullimg");
-    noimg.setAttribute("src",source);
-    if (document.getElementById("description")) {
-        var text = whichpic.getAttribute("title")
-            ? whichpic.getAttribute("title"):"";
-        var description = document.getElementById("description");
-        description.firstChild.nodeValue = text;
-    }
-    return true;
-}
-function imgPage() {
-    if (!document.getElementById("imgpage")) {return false;}
-    var imgpage = document.getElementById("imgpage");
-    var links = imgpage.getElementsByTagName("a");
-    for (var i=0;i<links.length;i++){
-        links[i].onclick=function() {return !showPic(this);}
-    }
-}
-addLoadEvent(imgPage);
-
-function popUp(winURL) {
-    window.open(winURL,"popup","width=1280,height=720");
-}
-function prepareLinks() {
-    var links = document.getElementsByTagName("a");
-    for (var i=0;i<links.length;i++){
-        if (links[i].getAttribute("class") == "popup"){
-            links[i].onclick = function(){
-                popUp(this.getAttribute("href"));
-                return false;
-            }
-        }
-    }
-}
-addLoadEvent(prepareLinks);
-
-function pa() {
-    var noimg = document.createElement("div");
-    noimg.setAttribute("id","noimg");
-    var description = document.createElement("p");
-    description.setAttribute("id","description");
-    var desctxt = document.createTextNode("↓かわいい↓");
-    description.appendChild(desctxt);
-    var nullimg = document.createElement("img");
-    nullimg.setAttribute("id","nullimg");
-    nullimg.setAttribute("src","image/erika.gif");
-    noimg.appendChild(description);
-    noimg.appendChild(nullimg);
-    var imgpage = document.getElementById("imgpage");
-    insertAfter(noimg,imgpage);
-};
-addLoadEvent(pa);
-
-
-function insertAfter(newElement,targetElement) {
-    var parent = targetElement.parentNode;
-    if (parent.lastChild == targetElement) {
-        parent.appendChild(newElement);
-    } else {
-        parent.insertBefore(newElement,targetElement.nextSibling);
-    }
-}
-function addLoadEvent(func) {
-    var oldonload = window.onload;
-    if (typeof window.onload != 'function') {
-        window.onload = func;
-    } else {
-        window.onload = function() {
-            oldonload();
-            func();
-        }
-    }
-}
 // alert去标题
 // window.alert = function (name) {
 //     const iframe = document.createElement('IFRAME');
