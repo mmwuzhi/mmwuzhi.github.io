@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+import PostList from '../../components/PostList.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => data.lang === 'ja'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 5)
+  .map((p) => ({
+    title: p.data.title,
+    date: p.data.date,
+    category: p.data.category,
+    slug: p.data.slug,
+  }));
+---
+
+<BaseLayout locale="ja" title="wokai.cc">
+  <Hero locale="ja" />
+  <PostList posts={posts} locale="ja" />
+</BaseLayout>

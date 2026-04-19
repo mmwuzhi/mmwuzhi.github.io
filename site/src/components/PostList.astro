@@ -1,0 +1,75 @@
+---
+import PostItem from './PostItem.astro';
+import { type Locale, useTranslations, getLocalePath } from '../i18n/translations';
+
+interface Post {
+  title: string;
+  date: Date;
+  category: string;
+  slug: string;
+}
+
+interface Props {
+  posts: Post[];
+  locale: Locale;
+  showViewAll?: boolean;
+}
+
+const { posts, locale, showViewAll = true } = Astro.props;
+const tr = useTranslations(locale);
+---
+
+<section class="posts">
+  <div class="posts-header">
+    <span class="label">{tr.posts.header}</span>
+    {showViewAll && (
+      <a href={getLocalePath(locale, 'blog')} class="view-all">
+        {tr.posts.viewAll} →
+      </a>
+    )}
+  </div>
+  <div class="list">
+    {posts.map((post) => (
+      <PostItem
+        title={post.title}
+        date={post.date}
+        category={post.category}
+        href={getLocalePath(locale, `blog/${post.slug}`)}
+        locale={locale}
+      />
+    ))}
+  </div>
+</section>
+
+<style>
+  .posts {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--page-x) 5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .posts-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 2rem 0;
+  }
+
+  .label {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text2);
+    font-family: var(--sans);
+  }
+
+  .view-all {
+    font-size: 0.78rem;
+    color: var(--text2);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .view-all:hover { color: var(--accent); }
+</style>

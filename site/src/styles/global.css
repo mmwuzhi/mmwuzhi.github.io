@@ -1,0 +1,52 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #faf7f2;
+  --text: #1e1a16;
+  --text2: #9a8470;
+  --accent: #b85c22;
+  --border: #e8ddd0;
+  --serif: 'Georgia', 'Noto Serif SC', 'Noto Serif JP', serif;
+  --sans: system-ui, -apple-system, 'PingFang SC', 'Hiragino Sans', sans-serif;
+  --max-width: 680px;
+  --page-x: 4rem;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  line-height: 1.7;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+main { flex: 1; }
+
+a { color: inherit; }
+
+/* Lang-specific typography */
+:lang(en) h1,
+:lang(en) h2,
+:lang(en) h3 {
+  font-family: var(--sans);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+:lang(zh) h1,
+:lang(zh) h2,
+:lang(zh) h3 {
+  font-family: var(--serif);
+  font-weight: normal;
+}
+
+:lang(ja) h1,
+:lang(ja) h2,
+:lang(ja) h3 {
+  font-family: var(--sans);
+  font-weight: 600;
+}

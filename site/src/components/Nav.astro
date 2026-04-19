@@ -1,0 +1,128 @@
+---
+import { type Locale, useTranslations, getLocalePath, locales } from '../i18n/translations';
+
+interface Props {
+  locale: Locale;
+  currentPath: string;
+}
+
+const { locale, currentPath } = Astro.props;
+const tr = useTranslations(locale);
+
+const langLabels: Record<Locale, string> = { zh: '中文', en: 'English', ja: '日本語' };
+
+// Compute the equivalent path in another locale
+function switchLangPath(to: Locale) {
+  if (locale === 'zh') return `/${to}${currentPath === '/' ? '' : currentPath}`;
+  const stripped = currentPath.replace(/^\/(en|ja)/, '');
+  if (to === 'zh') return stripped || '/';
+  return `/${to}${stripped}`;
+}
+---
+
+<nav>
+  <a href={getLocalePath(locale)} class="logo">wokai.cc</a>
+  <div class="nav-right">
+    <ul>
+      <li><a href={getLocalePath(locale, 'blog')}>{tr.nav.blog}</a></li>
+      <li><a href={getLocalePath(locale, 'about')}>{tr.nav.about}</a></li>
+      <li><a href="https://github.com/mmwuzhi" target="_blank" rel="noopener">GitHub</a></li>
+    </ul>
+    <div class="lang-select">
+      <select
+        aria-label="Language"
+        onchange="location.href=this.value"
+      >
+        {locales.map((l) => (
+          <option value={switchLangPath(l)} selected={l === locale}>
+            {langLabels[l]}
+          </option>
+        ))}
+      </select>
+      <span class="arrow" aria-hidden="true">▾</span>
+    </div>
+  </div>
+</nav>
+
+<style>
+  nav {
+    padding: 1.4rem var(--page-x);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 10;
+  }
+
+  .logo {
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-family: var(--sans);
+    color: var(--text2);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .logo:hover { color: var(--accent); }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+  }
+
+  ul a {
+    text-decoration: none;
+    color: var(--text2);
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+
+  ul a:hover { color: var(--accent); }
+
+  .lang-select {
+    position: relative;
+  }
+
+  select {
+    appearance: none;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--text2);
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    padding: 0.28rem 1.75rem 0.28rem 0.65rem;
+    cursor: pointer;
+    outline: none;
+    min-width: 5.5rem;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  select:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .arrow {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.6rem;
+    color: var(--text2);
+    pointer-events: none;
+  }
+</style>

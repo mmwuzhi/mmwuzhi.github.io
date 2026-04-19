@@ -1,0 +1,92 @@
+---
+import { type Locale, useTranslations } from '../i18n/translations';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const tr = useTranslations(locale);
+---
+
+<div class="hero" lang={locale}>
+  <div class="rule"></div>
+  <h1>
+    {locale === 'en'
+      ? <>Taking it <em>slow,</em><br />finding the feel.</>
+      : locale === 'ja'
+      ? <>ゆっくりと、<br /><em>感覚を探して</em></>
+      : <>慢慢试试，<br /><em>找找感觉</em></>
+    }
+  </h1>
+  <p>{tr.hero.description}</p>
+</div>
+
+<style>
+  .hero {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 5rem var(--page-x) 3.5rem;
+  }
+
+  .rule {
+    width: 28px;
+    height: 2px;
+    background: var(--accent);
+    margin-bottom: 2rem;
+  }
+
+  h1 {
+    font-size: 2.6rem;
+    line-height: 1.3;
+    margin-bottom: 1.25rem;
+  }
+
+  /* zh: serif normal */
+  :lang(zh) h1 {
+    font-family: var(--serif);
+    font-weight: normal;
+  }
+
+  :lang(zh) h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  /* en: sans bold + weight contrast */
+  :lang(en) h1 {
+    font-family: var(--sans);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  :lang(en) h1 em {
+    font-style: normal;
+    font-weight: 300;
+    color: var(--accent);
+  }
+
+  /* ja: sans bold */
+  :lang(ja) h1 {
+    font-family: var(--sans);
+    font-weight: 600;
+  }
+
+  :lang(ja) h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  p {
+    font-size: 0.975rem;
+    color: var(--text2);
+    max-width: 460px;
+    line-height: 1.85;
+  }
+
+  :lang(en) p {
+    font-family: var(--serif);
+    font-size: 1rem;
+    line-height: 1.9;
+  }
+</style>
