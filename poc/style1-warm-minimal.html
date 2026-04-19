@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Style 1 — 暖白极简</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #faf7f2;
+    --bg2: #f2ede4;
+    --text: #2c2420;
+    --text2: #7a6a62;
+    --accent: #c0622a;
+    --accent2: #e8976a;
+    --border: #e0d8ce;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Georgia', 'Noto Serif SC', serif;
+    line-height: 1.7;
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 4rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2.5rem;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: var(--text2);
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    font-family: system-ui, sans-serif;
+    transition: color 0.2s;
+  }
+
+  nav a:hover { color: var(--accent); }
+
+  /* Hero */
+  .hero {
+    padding: 6rem 4rem 5rem;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .hero-tag {
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: system-ui, sans-serif;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+    line-height: 1.25;
+    margin-bottom: 1.5rem;
+    font-weight: normal;
+    color: var(--text);
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero p {
+    font-size: 1.1rem;
+    color: var(--text2);
+    max-width: 520px;
+    margin-bottom: 2.5rem;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    background: var(--accent);
+    color: white;
+    text-decoration: none;
+    font-family: system-ui, sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    transition: background 0.2s;
+  }
+
+  .btn:hover { background: #a0522a; }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    margin-left: 1rem;
+  }
+
+  .btn-ghost:hover { background: var(--accent); color: white; }
+
+  /* Section */
+  section {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 3rem 4rem;
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    font-family: system-ui, sans-serif;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .post-list { display: flex; flex-direction: column; gap: 0; }
+
+  .post-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    color: inherit;
+    transition: padding-left 0.2s;
+  }
+
+  .post-item:hover { padding-left: 0.5rem; }
+
+  .post-item:hover .post-title { color: var(--accent); }
+
+  .post-title {
+    font-size: 1.05rem;
+    transition: color 0.2s;
+  }
+
+  .post-meta {
+    font-size: 0.8rem;
+    color: var(--text2);
+    font-family: system-ui, sans-serif;
+    white-space: nowrap;
+    margin-left: 1rem;
+  }
+
+  .post-tag {
+    display: inline-block;
+    padding: 0.15rem 0.6rem;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    font-size: 0.75rem;
+    color: var(--text2);
+    font-family: system-ui, sans-serif;
+    margin-right: 0.5rem;
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 4rem;
+    text-align: center;
+    color: var(--text2);
+    font-size: 0.85rem;
+    font-family: system-ui, sans-serif;
+  }
+
+  .divider {
+    width: 40px;
+    height: 2px;
+    background: var(--accent);
+    margin: 0 auto 1rem;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">神秘网站</div>
+  <ul>
+    <li><a href="#">Blog</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">GitHub</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <p class="hero-tag">Welcome</p>
+  <h1>慢慢试试，<br><em>找找感觉</em></h1>
+  <p>记录技术与生活的碎片，写给自己也写给路过的人。</p>
+  <a href="#" class="btn">读最新文章</a>
+  <a href="#" class="btn btn-ghost">关于我</a>
+</div>
+
+<section>
+  <div class="section-label">最近文章</div>
+  <div class="post-list">
+    <a href="#" class="post-item">
+      <div>
+        <span class="post-tag">技术</span>
+        <span class="post-title">用 Astro 重建这个博客的过程记录</span>
+      </div>
+      <span class="post-meta">2026.04</span>
+    </a>
+    <a href="#" class="post-item">
+      <div>
+        <span class="post-tag">随笔</span>
+        <span class="post-title">关于把东西做完这件事</span>
+      </div>
+      <span class="post-meta">2026.03</span>
+    </a>
+    <a href="#" class="post-item">
+      <div>
+        <span class="post-tag">技术</span>
+        <span class="post-title">TypeScript 类型体操备忘录</span>
+      </div>
+      <span class="post-meta">2026.02</span>
+    </a>
+    <a href="#" class="post-item">
+      <div>
+        <span class="post-tag">生活</span>
+        <span class="post-title">最近在听的几张专辑</span>
+      </div>
+      <span class="post-meta">2026.01</span>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="divider"></div>
+  <p>wokai.cc · 慢慢试试找感觉</p>
+</footer>
+
+</body>
+</html>
