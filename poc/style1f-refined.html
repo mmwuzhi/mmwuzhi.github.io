@@ -81,10 +81,9 @@
     font-family: var(--sans);
     font-size: 0.75rem;
     letter-spacing: 0.06em;
-    padding: 0.28rem 1.75rem 0.28rem 0.65rem;
+    padding: 0.28rem 1.5rem 0.28rem 0.65rem;
     cursor: pointer;
     outline: none;
-    min-width: 7.5rem;
     transition: border-color 0.15s, color 0.15s;
   }
 
@@ -147,7 +146,19 @@
     transition: color 0.2s;
   }
 
-  /* English: keep serif title (same feel as Chinese), serif body */
+  /* English: sans title with weight contrast, serif body */
+  body.lang-en .hero h1 {
+    font-family: var(--sans);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  body.lang-en .hero h1 em {
+    font-style: normal;
+    font-weight: 300;
+    color: inherit;
+  }
+
   body.lang-en .hero p {
     font-family: var(--serif);
     font-size: 1rem;
@@ -155,18 +166,20 @@
   }
 
   body.lang-en .post-title {
-    font-family: var(--serif);
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 0.975rem;
   }
 
-  /* Japanese: sans-serif throughout, title bold */
+  /* Japanese: sans-serif throughout, title 600 */
   body.lang-ja .hero h1 {
     font-family: var(--sans);
-    font-weight: 700;
-    font-size: 2.4rem;
+    font-weight: 600;
   }
 
   body.lang-ja .hero h1 em {
     font-style: normal;
+    color: inherit;
   }
 
   body.lang-ja .post-title {
