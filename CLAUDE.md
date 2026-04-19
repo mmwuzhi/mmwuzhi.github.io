@@ -4,85 +4,107 @@ This file documents the repository structure, conventions, and workflows for AI 
 
 ## Repository Overview
 
-This is the GitHub Pages hosting repository for a personal website accessible at **wokai.cc**. It contains the **production build output** of a React-based comment application — there are no source files here. The repository is deployed automatically by GitHub Pages from the `master` branch.
+This is the source repository for **余白** (Margins), a personal blog and homepage accessible at **wokai.cc**. It is an Astro static site with TypeScript, trilingual support (Chinese / English / Japanese), and GitHub Pages deployment.
 
 - **Live URL**: https://wokai.cc
 - **GitHub Repo**: mmwuzhi/mmwuzhi.github.io
-- **Site title**: 神秘网站 (Mysterious Website)
-- **Site tagline**: 慢慢试试找感觉 (Slowly try to get the feel)
+- **Site name**: 余白
+- **Default language**: Chinese (zh), with /en/ and /ja/ routes
 
 ## Technology Stack
 
 | Layer | Technology |
 |---|---|
-| Framework | React v16.13.1 (production build) |
-| State management | Redux |
-| Build tool | Create React App (Webpack v4) |
-| PWA | Service Worker (Workbox v4.3.1), Web App Manifest |
+| Framework | Astro v6 (static output) |
+| Language | TypeScript (strict) |
+| Styling | Plain CSS (component-scoped) |
+| i18n | Astro built-in i18n, 3 locales |
+| Content | Astro Content Collections (Markdown) |
 | Hosting | GitHub Pages |
-| Custom domain | `wokai.cc` (configured via `CNAME`) |
-| Jekyll theme | `jekyll-theme-hacker` (declared in `_config.yml`, overridden by React build) |
+| Custom domain | `wokai.cc` (via `public/CNAME`) |
 
 ## Repository Structure
 
 ```
 mmwuzhi.github.io/
-├── static/                     # Compiled, versioned build assets
-│   ├── css/
-│   │   └── main.<hash>.chunk.css         # Minified application styles
-│   └── js/
-│       ├── 2.<hash>.chunk.js             # Vendor bundle (React, Redux, etc.)
-│       ├── main.<hash>.chunk.js          # Application code bundle
-│       └── runtime-main.<hash>.js        # Webpack bootstrap runtime
-├── index.html                  # SPA entry point; mounts React at <div id="root">
-├── manifest.json               # PWA web app manifest
-├── asset-manifest.json         # Maps logical names to hashed filenames
-├── precache-manifest.*.js      # Service worker precache list
-├── service-worker.js           # Workbox-based PWA service worker
-├── favicon.ico                 # Site favicon
-├── logo192.png                 # PWA icon (192×192)
-├── logo512.png                 # PWA icon (512×512)
-├── robots.txt                  # Allows all crawlers (no restrictions)
-├── CNAME                       # Custom domain: wokai.cc
-├── _config.yml                 # Jekyll theme declaration (jekyll-theme-hacker)
-└── README.md                   # Minimal readme ("慢慢试试找感觉")
+├── src/
+│   ├── components/
+│   │   ├── Hero.astro          # Homepage hero, lang-aware typography
+│   │   ├── Nav.astro           # Sticky nav + language dropdown
+│   │   ├── PostItem.astro      # Single post row with left-border hover
+│   │   └── PostList.astro      # Post list section with header
+│   ├── content/
+│   │   └── blog/               # Markdown posts (*.zh.md / *.en.md / *.ja.md)
+│   ├── i18n/
+│   │   └── translations.ts     # All UI strings for zh / en / ja
+│   ├── layouts/
+│   │   └── BaseLayout.astro    # HTML shell: Nav + slot + Footer
+│   ├── pages/
+│   │   ├── index.astro         # / (Chinese, default)
+│   │   ├── en/index.astro      # /en/
+│   │   └── ja/index.astro      # /ja/
+│   ├── styles/
+│   │   └── global.css          # CSS variables, reset, lang-specific type rules
+│   └── content.config.ts       # Content collection schema
+├── public/
+│   ├── CNAME                   # Custom domain: wokai.cc
+│   ├── robots.txt
+│   ├── favicon.ico
+│   └── favicon.svg
+├── astro.config.mjs
+├── package.json
+└── tsconfig.json
 ```
 
-## Application Features (inferred from build artifacts)
+## Typography Rules
 
-The React application (`webpackJsonpcomment-app`) implements:
+Typography varies by language — this is intentional:
 
-- **Comment input form** — allows users to submit comments
-- **Comment list display** — renders submitted comments with timestamps
-- **Comment items** — individual comment components
-- **Clock display** — live clock component
-- **Local persistence** — comments stored via `localStorage`
-- **Redux state management** — manages comment state
+| Language | Title font | Body font |
+|---|---|---|
+| 中文 (zh) | Serif (Georgia / Noto Serif SC) | Sans-serif |
+| English (en) | Sans-serif, weight 600 | Serif |
+| 日本語 (ja) | Sans-serif, weight 600 | Sans-serif |
 
-### Styling
+Accent color `#b85c22` is applied to `<em>` in hero titles across all languages.
 
-The CSS (500 px centered wrapper) uses:
-- White background
-- Cyan accent color: `#00a3cf`
-- Light gray borders for comment items
-- Code snippet display with background + border styling
+## i18n
 
-## Important Constraints
+- Default locale `zh` has no URL prefix (`/`)
+- English at `/en/`, Japanese at `/ja/`
+- All UI strings live in `src/i18n/translations.ts`
+- Blog posts are separate Markdown files per language, identified by `lang` frontmatter field
 
-### This repository holds build artifacts only
+### Adding a blog post
 
-- **No `src/` directory** — source code lives in a separate (private) repository
-- **No `package.json`** — do not attempt to run `npm install` or any build commands here
-- **No CI/CD configuration** — no `.github/workflows/` or similar files
-- All `.js` and `.css` files under `static/` are minified and content-hashed; do not edit them directly
+Create `src/content/blog/<slug>.<lang>.md` with frontmatter:
 
-### Deployment model
+```markdown
+---
+title: 文章标题
+date: 2026-04-19
+category: 技术
+lang: zh
+slug: your-slug
+---
+```
 
-GitHub Pages serves the `master` branch root directly. Pushing new build artifacts to `master` constitutes a deployment. No build step runs in this repository.
+Same `slug` value across language files links them as translations of each other.
+
+## Development
+
+```bash
+npm install
+npm run dev      # dev server at localhost:4321
+npm run build    # static build → dist/
+npm run preview  # preview dist/ locally
+```
+
+## Deployment
+
+Build output goes to `dist/`. GitHub Pages serves from the `master` branch root — deployment requires copying `dist/*` to the repo root and pushing, or via GitHub Actions (not yet configured).
 
 ## Development Branch Convention
-
-Active development uses the branch naming pattern:
 
 ```
 claude/<description>-<id>
@@ -90,39 +112,10 @@ claude/<description>-<id>
 
 Example: `claude/add-claude-documentation-0L8S4`
 
-Changes are developed on these branches and merged into `master` via pull request.
-
 ## Git Commit Conventions
 
-Commit messages in this repository are informal and often written in Chinese. There is no enforced commit message format. Use plain English or Chinese for commit messages. Keep them concise and descriptive.
-
-Examples from history:
-- `新版！！！` (New version!!!)
-- `改下title不然太傻` (Change title, otherwise it's stupid)
-- `Update CNAME`
-
-## Updating the Site
-
-To update the site, replace the production build artifacts with a newly generated build from the source repository. The typical workflow is:
-
-1. Build the React app in the source repository (`npm run build`)
-2. Copy the `build/` output into this repository, replacing existing files
-3. Commit and push to `master`
-
-Key files that change between builds:
-- `static/css/main.<new-hash>.chunk.css`
-- `static/js/*.chunk.js` and `runtime-main.*.js`
-- `index.html` (references updated hashed asset paths)
-- `asset-manifest.json`
-- `precache-manifest.*.js`
-
-## PWA Notes
-
-- The service worker (`service-worker.js`) uses Workbox v4.3.1 and precaches all main assets for offline support.
-- When deploying a new build, the old `precache-manifest.*.js` file should be replaced with the new one (filename includes a content hash).
-- The `manifest.json` currently uses placeholder values (`"Create React App Sample"`) — these can be updated to match the actual site branding.
+Informal, often Chinese. No enforced format — keep messages concise.
 
 ## Sensitive Files
 
-- `CNAME` — controls the live domain; do not modify without intending a domain change.
-- `service-worker.js` — controls offline caching; incorrect changes can break site access for returning users.
+- `public/CNAME` — controls the live domain; do not modify without intending a domain change.
