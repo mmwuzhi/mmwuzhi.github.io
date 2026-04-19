@@ -5,7 +5,7 @@ export const defaultLocale: Locale = 'zh';
 
 export const t = {
   zh: {
-    siteTitle: '神秘网站',
+    siteTitle: '余白',
     nav: {
       blog: '文章',
       about: '关于',
@@ -20,7 +20,7 @@ export const t = {
       viewAll: '全部文章',
     },
     footer: {
-      tagline: '慢慢试试找感觉',
+      tagline: '余白',
     },
     lang: {
       zh: '中文',
@@ -29,7 +29,7 @@ export const t = {
     },
   },
   en: {
-    siteTitle: 'wokai.cc',
+    siteTitle: '余白',
     nav: {
       blog: 'Blog',
       about: 'About',
@@ -55,7 +55,7 @@ export const t = {
     },
   },
   ja: {
-    siteTitle: 'wokai.cc',
+    siteTitle: '余白',
     nav: {
       blog: '記事',
       about: '自己紹介',
