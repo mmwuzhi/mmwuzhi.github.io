@@ -46,7 +46,7 @@ export const t = {
       viewAll: 'All Posts',
     },
     footer: {
-      tagline: 'wokai.cc',
+      tagline: '余白',
     },
     lang: {
       zh: '中文',
@@ -70,7 +70,7 @@ export const t = {
       viewAll: '全ての記事',
     },
     footer: {
-      tagline: 'wokai.cc',
+      tagline: '余白',
     },
     lang: {
       zh: '中文',
