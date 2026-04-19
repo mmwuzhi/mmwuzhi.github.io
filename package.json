@@ -1,5 +1,6 @@
 {
-  "name": "home-user-mmwuzhi-github-io-site",
+  "name": "wokai-cc",
+  "packageManager": "pnpm@10.33.0",
   "type": "module",
   "version": "0.0.1",
   "engines": {

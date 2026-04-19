@@ -94,10 +94,10 @@ Same `slug` value across language files links them as translations of each other
 ## Development
 
 ```bash
-npm install
-npm run dev      # dev server at localhost:4321
-npm run build    # static build → dist/
-npm run preview  # preview dist/ locally
+pnpm install
+pnpm dev      # dev server at localhost:4321
+pnpm build    # static build → dist/
+pnpm preview  # preview dist/ locally
 ```
 
 ## Deployment

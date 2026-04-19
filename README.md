@@ -13,12 +13,12 @@
 ## 本地开发
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
 
 构建：
 
 ```bash
-npm run build   # 输出到 dist/
+pnpm build   # 输出到 dist/
 ```
