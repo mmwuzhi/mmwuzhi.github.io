@@ -13,8 +13,8 @@
     --text2: #9a8470;
     --accent: #b85c22;
     --border: #e8ddd0;
-    --serif: 'Georgia', 'Noto Serif SC', serif;
-    --sans: system-ui, -apple-system, 'PingFang SC', sans-serif;
+    --serif: 'Georgia', 'Noto Serif SC', 'Noto Serif JP', serif;
+    --sans: system-ui, -apple-system, 'PingFang SC', 'Hiragino Sans', sans-serif;
   }
 
   body {
@@ -67,35 +67,40 @@
 
   nav a:hover { color: var(--accent); }
 
-  /* Language toggle in nav */
-  .lang-toggle {
-    display: flex;
-    align-items: center;
-    gap: 0;
+  /* Language dropdown */
+  .lang-select {
+    position: relative;
+  }
+
+  .lang-select select {
+    appearance: none;
+    background: transparent;
     border: 1px solid var(--border);
     border-radius: 3px;
-    overflow: hidden;
-  }
-
-  .lang-btn {
-    font-size: 0.72rem;
-    letter-spacing: 0.08em;
-    padding: 0.28rem 0.6rem;
-    border: none;
-    cursor: pointer;
-    background: transparent;
     color: var(--text2);
     font-family: var(--sans);
-    transition: all 0.15s;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    padding: 0.28rem 1.6rem 0.28rem 0.65rem;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.15s, color 0.15s;
   }
 
-  .lang-btn.active {
-    background: var(--accent);
-    color: white;
-  }
-
-  .lang-btn:not(.active):hover {
+  .lang-select select:hover {
+    border-color: var(--accent);
     color: var(--accent);
+  }
+
+  .lang-select::after {
+    content: '▾';
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.6rem;
+    color: var(--text2);
+    pointer-events: none;
   }
 
   /* Hero */
@@ -112,6 +117,7 @@
     margin-bottom: 2rem;
   }
 
+  /* Chinese: serif title + sans body */
   .hero h1 {
     font-family: var(--serif);
     font-size: 2.6rem;
@@ -132,28 +138,40 @@
     line-height: 1.85;
   }
 
-  /* English typography: sans title, serif body */
-  body.show-en .hero h1 {
+  /* Post titles: serif by default (Chinese) */
+  .post-title {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    line-height: 1.4;
+    transition: color 0.2s;
+  }
+
+  /* English / Japanese: sans title + serif body */
+  body.lang-en .hero h1,
+  body.lang-ja .hero h1 {
     font-family: var(--sans);
     font-weight: 600;
     letter-spacing: -0.02em;
   }
 
-  body.show-en .hero h1 em {
+  body.lang-en .hero h1 em,
+  body.lang-ja .hero h1 em {
     font-style: normal;
     font-weight: 300;
   }
 
-  body.show-en .hero p {
+  body.lang-en .hero p,
+  body.lang-ja .hero p {
     font-family: var(--serif);
-    font-style: normal;
     font-size: 1rem;
     line-height: 1.9;
   }
 
-  body.show-en .post-title {
-    font-family: var(--serif);
-    font-size: 1rem;
+  body.lang-en .post-title,
+  body.lang-ja .post-title {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 0.975rem;
   }
 
   /* Posts */
@@ -181,10 +199,7 @@
     transition: border-color 0.2s;
   }
 
-  .post-item:hover {
-    border-left-color: var(--accent);
-  }
-
+  .post-item:hover { border-left-color: var(--accent); }
   .post-item:hover .post-title { color: var(--accent); }
 
   .post-meta {
@@ -192,13 +207,6 @@
     color: var(--text2);
     letter-spacing: 0.05em;
     margin-bottom: 0.3rem;
-  }
-
-  .post-title {
-    font-family: var(--serif);
-    font-size: 1.05rem;
-    line-height: 1.4;
-    transition: color 0.2s;
   }
 
   footer {
@@ -214,13 +222,14 @@
   footer a:hover { color: var(--accent); }
   .footer-links { display: flex; gap: 1.5rem; }
 
-  /* Language switching */
-  .en { display: none; }
-  body.show-en .zh { display: none; }
-  body.show-en .en { display: block; }
+  /* Language visibility */
+  .zh, .en, .ja { display: none; }
+  body.lang-zh .zh { display: block; }
+  body.lang-en .en { display: block; }
+  body.lang-ja .ja { display: block; }
 </style>
 </head>
-<body>
+<body class="lang-zh">
 
 <nav>
   <a href="#" class="logo">wokai.cc</a>
@@ -230,17 +239,12 @@
       <li><a href="#">About</a></li>
       <li><a href="#">GitHub</a></li>
     </ul>
-    <div class="lang-toggle">
-      <button class="lang-btn zh-btn active" onclick="
-        document.body.classList.remove('show-en');
-        document.querySelector('.zh-btn').classList.add('active');
-        document.querySelector('.en-btn').classList.remove('active');
-      ">中</button>
-      <button class="lang-btn en-btn" onclick="
-        document.body.classList.add('show-en');
-        document.querySelector('.en-btn').classList.add('active');
-        document.querySelector('.zh-btn').classList.remove('active');
-      ">EN</button>
+    <div class="lang-select">
+      <select onchange="setLang(this.value)">
+        <option value="zh">中文</option>
+        <option value="en">English</option>
+        <option value="ja">日本語</option>
+      </select>
     </div>
   </div>
 </nav>
@@ -252,8 +256,12 @@
     <p>记录技术与生活的碎片，写给自己也写给路过的人。</p>
   </div>
   <div class="en">
-    <h1><em>Taking it slow,</em><br>finding the feel.</h1>
+    <h1>Taking it <em>slow,</em><br>finding the feel.</h1>
     <p>Notes on technology and everyday life — written for myself, and for anyone who passes by.</p>
+  </div>
+  <div class="ja">
+    <h1>ゆっくりと、<br><em>感覚を探して</em></h1>
+    <p>技術と日常の断片を記録する。自分のために、そして通りすがりの誰かのために。</p>
   </div>
 </div>
 
@@ -264,21 +272,25 @@
     <div class="post-meta">2026.04 · Tech</div>
     <div class="post-title zh">用 Astro 重建这个博客的过程记录</div>
     <div class="post-title en">Rebuilding This Blog With Astro</div>
+    <div class="post-title ja">Astroでこのブログを作り直した記録</div>
   </a>
   <a href="#" class="post-item">
     <div class="post-meta">2026.03 · Essay</div>
     <div class="post-title zh">关于把东西做完这件事</div>
     <div class="post-title en">On Actually Finishing Things</div>
+    <div class="post-title ja">ものごとをちゃんと完成させることについて</div>
   </a>
   <a href="#" class="post-item">
     <div class="post-meta">2026.02 · Tech</div>
     <div class="post-title zh">TypeScript 类型体操备忘录</div>
     <div class="post-title en">TypeScript Type Gymnastics Cheatsheet</div>
+    <div class="post-title ja">TypeScript 型体操チートシート</div>
   </a>
   <a href="#" class="post-item">
     <div class="post-meta">2026.01 · Life</div>
     <div class="post-title zh">最近在听的几张专辑</div>
     <div class="post-title en">Albums I've Been Listening to Lately</div>
+    <div class="post-title ja">最近聴いているアルバムたち</div>
   </a>
 </div>
 
@@ -289,6 +301,12 @@
     <a href="#">Twitter</a>
   </div>
 </footer>
+
+<script>
+  function setLang(lang) {
+    document.body.className = 'lang-' + lang;
+  }
+</script>
 
 </body>
 </html>
