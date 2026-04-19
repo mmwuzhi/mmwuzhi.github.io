@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Style 1D — 暖调重点色</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #faf6f0;
+    --surface: #fff;
+    --text: #241e18;
+    --text2: #9a8470;
+    --accent: #d4622a;
+    --accent-light: #fdeee6;
+    --yellow: #f5c842;
+    --border: #ead8c8;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, 'PingFang SC', sans-serif;
+    line-height: 1.7;
+  }
+
+  nav {
+    padding: 1.25rem 3.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .logo-icon {
+    width: 28px;
+    height: 28px;
+    background: var(--accent);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: var(--text2);
+    font-size: 0.875rem;
+    padding: 0.4rem 0.85rem;
+    border-radius: 6px;
+    transition: all 0.15s;
+  }
+
+  nav a:hover {
+    background: var(--accent-light);
+    color: var(--accent);
+  }
+
+  /* Hero */
+  .hero {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 5rem 3.5rem 4rem;
+  }
+
+  .hero-intro {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.35rem 0.85rem;
+    border-radius: 100px;
+    margin-bottom: 2rem;
+  }
+
+  .hero-intro::before {
+    content: '✦';
+    font-size: 0.6rem;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    margin-bottom: 1.25rem;
+  }
+
+  .underline-accent {
+    position: relative;
+    white-space: nowrap;
+  }
+
+  .underline-accent::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: var(--yellow);
+    z-index: -1;
+    opacity: 0.7;
+  }
+
+  .hero p {
+    font-size: 1rem;
+    color: var(--text2);
+    max-width: 460px;
+    margin-bottom: 2.5rem;
+    line-height: 1.8;
+  }
+
+  .btn-row { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
+
+  .btn {
+    display: inline-block;
+    padding: 0.7rem 1.5rem;
+    background: var(--accent);
+    color: white;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.15s;
+  }
+
+  .btn:hover {
+    background: #b8521e;
+    transform: translateY(-1px);
+  }
+
+  .btn-soft {
+    background: var(--accent-light);
+    color: var(--accent);
+  }
+
+  .btn-soft:hover {
+    background: #fad8c8;
+    transform: translateY(-1px);
+  }
+
+  /* Posts */
+  section {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 3.5rem 5rem;
+  }
+
+  .section-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text2);
+    margin-bottom: 1.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .post-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.1rem 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 0.75rem;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.15s;
+  }
+
+  .post-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 2px 12px rgba(212, 98, 42, 0.1);
+    transform: translateY(-1px);
+  }
+
+  .post-card:hover .post-title { color: var(--accent); }
+
+  .post-body {}
+
+  .post-tag {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-light);
+    padding: 0.15rem 0.55rem;
+    border-radius: 4px;
+    margin-bottom: 0.4rem;
+  }
+
+  .post-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.45;
+    transition: color 0.15s;
+  }
+
+  .post-date {
+    font-size: 0.75rem;
+    color: var(--text2);
+    white-space: nowrap;
+    padding-top: 0.15rem;
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 1.75rem 3.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: var(--text2);
+    max-width: 100%;
+  }
+
+  .footer-links { display: flex; gap: 1.25rem; }
+  .footer-links a { color: var(--text2); text-decoration: none; transition: color 0.15s; }
+  .footer-links a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-icon">神</div>
+    神秘网站
+  </a>
+  <ul>
+    <li><a href="#">文章</a></li>
+    <li><a href="#">关于</a></li>
+    <li><a href="#">GitHub</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="hero-intro">Personal Blog</div>
+  <h1>慢慢试试，<br><span class="underline-accent">找找感觉</span></h1>
+  <p>记录技术与生活的碎片，写给自己也写给路过的人。</p>
+  <div class="btn-row">
+    <a href="#" class="btn">浏览文章</a>
+    <a href="#" class="btn btn-soft">关于我</a>
+  </div>
+</div>
+
+<section>
+  <div class="section-title">最近文章</div>
+
+  <a href="#" class="post-card">
+    <div class="post-body">
+      <div class="post-tag">技术</div>
+      <div class="post-title">用 Astro 重建这个博客的过程记录</div>
+    </div>
+    <span class="post-date">2026.04</span>
+  </a>
+  <a href="#" class="post-card">
+    <div class="post-body">
+      <div class="post-tag">随笔</div>
+      <div class="post-title">关于把东西做完这件事</div>
+    </div>
+    <span class="post-date">2026.03</span>
+  </a>
+  <a href="#" class="post-card">
+    <div class="post-body">
+      <div class="post-tag">技术</div>
+      <div class="post-title">TypeScript 类型体操备忘录</div>
+    </div>
+    <span class="post-date">2026.02</span>
+  </a>
+  <a href="#" class="post-card">
+    <div class="post-body">
+      <div class="post-tag">生活</div>
+      <div class="post-title">最近在听的几张专辑</div>
+    </div>
+    <span class="post-date">2026.01</span>
+  </a>
+</section>
+
+<footer>
+  <span>wokai.cc · 慢慢试试找感觉</span>
+  <div class="footer-links">
+    <a href="#">RSS</a>
+    <a href="#">Twitter</a>
+    <a href="#">GitHub</a>
+  </div>
+</footer>
+
+</body>
+</html>
