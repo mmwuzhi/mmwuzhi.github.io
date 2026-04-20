@@ -1,0 +1,86 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import PostItem from '../components/PostItem.astro';
+import { useTranslations, getLocalePath, type Locale } from '../i18n/translations';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const tr = useTranslations(locale);
+
+const posts = (await getCollection('blog', ({ data }) => data.lang === locale))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .map((p) => ({ title: p.data.title, date: p.data.date, category: p.data.category, slug: p.data.slug }));
+
+const byYear = posts.reduce<Record<number, typeof posts>>((acc, p) => {
+  const y = p.date.getFullYear();
+  (acc[y] ??= []).push(p);
+  return acc;
+}, {});
+
+const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
+---
+
+<BaseLayout {locale} title={`Blog — 余白`}>
+  <div class="page">
+    <div class="rule"></div>
+    <h1>{tr.nav.blog}</h1>
+
+    {years.length === 0
+      ? <p class="empty">{tr.posts.empty}</p>
+      : years.map((year) => (
+          <div class="year-group">
+            <div class="year-label">{year}</div>
+            <div class="list">
+              {byYear[year].map((p) => (
+                <PostItem
+                  title={p.title}
+                  date={p.date}
+                  category={p.category}
+                  href={getLocalePath(locale, `blog/${p.slug}`)}
+                  {locale}
+                />
+              ))}
+            </div>
+          </div>
+        ))
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 5rem var(--page-x);
+  }
+
+  .rule {
+    width: 28px;
+    height: 2px;
+    background: var(--accent);
+    margin-bottom: 2rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .year-group { margin-bottom: 2.5rem; }
+
+  .year-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--text2);
+    font-family: var(--sans);
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+    padding-left: 1.25rem;
+  }
+
+  .empty {
+    color: var(--text2);
+    font-size: 0.9rem;
+  }
+</style>

@@ -18,6 +18,8 @@ export const t = {
     posts: {
       header: 'Recent Posts',
       viewAll: '全部文章',
+      back: '← 文章列表',
+      empty: '还没有文章。',
     },
     footer: {
       tagline: '余白',
@@ -44,6 +46,8 @@ export const t = {
     posts: {
       header: 'Recent Posts',
       viewAll: 'All Posts',
+      back: '← All Posts',
+      empty: 'No posts yet.',
     },
     footer: {
       tagline: '余白',
@@ -68,6 +72,8 @@ export const t = {
     posts: {
       header: 'Recent Posts',
       viewAll: '全ての記事',
+      back: '← 記事一覧',
+      empty: 'まだ記事がありません。',
     },
     footer: {
       tagline: '余白',
