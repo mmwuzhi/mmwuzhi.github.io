@@ -21,9 +21,9 @@ const currentPath = new URL(Astro.request.url).pathname;
     <meta name="description" content={description} />
     <title>{title}</title>
     <link rel="icon" href="/favicon.ico" />
-    <link rel="alternate" hreflang="zh" href="https://wokai.cc/" />
-    <link rel="alternate" hreflang="en" href="https://wokai.cc/en/" />
-    <link rel="alternate" hreflang="ja" href="https://wokai.cc/ja/" />
+    <link rel="alternate" hreflang="zh" href="https://mmwuzhi.dev/" />
+    <link rel="alternate" hreflang="en" href="https://mmwuzhi.dev/en/" />
+    <link rel="alternate" hreflang="ja" href="https://mmwuzhi.dev/ja/" />
   </head>
   <body>
     <Nav locale={locale} currentPath={currentPath} />
@@ -31,7 +31,7 @@ const currentPath = new URL(Astro.request.url).pathname;
       <slot />
     </main>
     <footer>
-      <span>wokai.cc</span>
+      <span>mmwuzhi.dev</span>
       <div class="footer-links">
         <a href="/rss.xml">RSS</a>
       </div>

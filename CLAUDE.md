@@ -4,9 +4,9 @@ This file documents the repository structure, conventions, and workflows for AI 
 
 ## Repository Overview
 
-This is the source repository for **余白** (Margins), a personal blog and homepage accessible at **wokai.cc**. It is an Astro static site with TypeScript, trilingual support (Chinese / English / Japanese), and GitHub Pages deployment.
+This is the source repository for **余白** (Margins), a personal blog and homepage accessible at **mmwuzhi.dev**. It is an Astro static site with TypeScript, trilingual support (Chinese / English / Japanese), and GitHub Pages deployment.
 
-- **Live URL**: https://wokai.cc
+- **Live URL**: https://mmwuzhi.dev
 - **GitHub Repo**: mmwuzhi/mmwuzhi.github.io
 - **Site name**: 余白
 - **Default language**: Chinese (zh), with /en/ and /ja/ routes
@@ -21,7 +21,7 @@ This is the source repository for **余白** (Margins), a personal blog and home
 | i18n | Astro built-in i18n, 3 locales |
 | Content | Astro Content Collections (Markdown) |
 | Hosting | GitHub Pages |
-| Custom domain | `wokai.cc` (via `public/CNAME`) |
+| Custom domain | `mmwuzhi.dev` (via `public/CNAME`) |
 
 ## Repository Structure
 
@@ -47,7 +47,7 @@ mmwuzhi.github.io/
 │   │   └── global.css          # CSS variables, reset, lang-specific type rules
 │   └── content.config.ts       # Content collection schema
 ├── public/
-│   ├── CNAME                   # Custom domain: wokai.cc
+│   ├── CNAME                   # Custom domain: mmwuzhi.dev
 │   ├── robots.txt
 │   ├── favicon.ico
 │   └── favicon.svg

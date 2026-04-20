@@ -2,7 +2,7 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://wokai.cc',
+  site: 'https://mmwuzhi.dev',
   outDir: 'dist',
   i18n: {
     defaultLocale: 'zh',

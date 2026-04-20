@@ -1,6 +1,6 @@
 # 余白
 
-个人博客，[wokai.cc](https://wokai.cc)
+个人博客，[mmwuzhi.dev](https://mmwuzhi.dev)
 
 中文 / English / 日本語
 
