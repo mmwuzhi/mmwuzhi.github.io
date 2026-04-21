@@ -126,3 +126,18 @@ function switchLangPath(to: Locale) {
     pointer-events: none;
   }
 </style>
+
+<script>
+  function syncLangSelect() {
+    const select = document.querySelector<HTMLSelectElement>('.lang-select select');
+    if (!select) return;
+    const path = location.pathname;
+    const lang = path.startsWith('/en') ? 'en' : path.startsWith('/ja') ? 'ja' : 'zh';
+    for (const opt of select.options) {
+      const val = opt.value;
+      const optLang = val.startsWith('/en') ? 'en' : val.startsWith('/ja') ? 'ja' : 'zh';
+      if (optLang === lang) { select.value = val; break; }
+    }
+  }
+  window.addEventListener('pageshow', syncLangSelect);
+</script>
