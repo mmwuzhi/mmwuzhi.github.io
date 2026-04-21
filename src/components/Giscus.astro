@@ -1,0 +1,45 @@
+---
+import type { Locale } from '../i18n/translations';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const langMap: Record<Locale, string> = {
+  zh: 'zh-CN',
+  en: 'en',
+  ja: 'ja',
+};
+---
+
+<div class="giscus-wrap">
+  <script
+    is:inline
+    src="https://giscus.app/client.js"
+    data-repo="mmwuzhi/mmwuzhi.github.io"
+    data-repo-id="REPLACE_WITH_REPO_ID"
+    data-category="General"
+    data-category-id="REPLACE_WITH_CATEGORY_ID"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang={langMap[locale]}
+    crossorigin="anonymous"
+    async
+  ></script>
+</div>
+
+<style>
+  .giscus-wrap {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--page-x) 5rem;
+    border-top: 1px solid var(--border);
+    padding-top: 3rem;
+  }
+</style>

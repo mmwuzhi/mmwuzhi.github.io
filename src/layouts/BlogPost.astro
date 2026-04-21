@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import Giscus from '../components/Giscus.astro';
 import { useTranslations, getLocalePath, type Locale } from '../i18n/translations';
 
 interface Props {
@@ -30,6 +31,7 @@ const dateStr = date.toLocaleDateString(
       <slot />
     </div>
   </article>
+  <Giscus {locale} />
 </BaseLayout>
 
 <style>
