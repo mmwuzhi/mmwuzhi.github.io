@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout locale="zh" title="About — 余白">
+  <div class="page" lang="zh">
+    <div class="rule"></div>
+    <h1>About</h1>
+    <div class="prose">
+      <p>我是 mmwuzhi，写写代码，记记生活。</p>
+      <p>这个网站叫「余白」——留白，也留着还没想清楚的事。</p>
+      <p>
+        GitHub：<a href="https://github.com/mmwuzhi" target="_blank" rel="noopener">mmwuzhi</a>
+      </p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 5rem var(--page-x) 6rem;
+  }
+
+  .rule {
+    width: 28px;
+    height: 2px;
+    background: var(--accent);
+    margin-bottom: 2rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+</style>

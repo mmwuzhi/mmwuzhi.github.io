@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout locale="ja" title="About — 余白">
+  <div class="page" lang="ja">
+    <div class="rule"></div>
+    <h1>About</h1>
+    <div class="prose">
+      <p>mmwuzhi です。コードを書いたり、日々のことを記録したりしています。</p>
+      <p>このサイトの名前は「余白」——まだ答えの出ていないことのための、空白。</p>
+      <p>
+        GitHub：<a href="https://github.com/mmwuzhi" target="_blank" rel="noopener">mmwuzhi</a>
+      </p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 5rem var(--page-x) 6rem;
+  }
+
+  .rule {
+    width: 28px;
+    height: 2px;
+    background: var(--accent);
+    margin-bottom: 2rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+</style>

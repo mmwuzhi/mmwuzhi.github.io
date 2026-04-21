@@ -1,24 +1,18 @@
 # 余白
 
-个人博客，[mmwuzhi.dev](https://mmwuzhi.dev)
+Personal blog at [mmwuzhi.dev](https://mmwuzhi.dev) — Chinese / English / Japanese.
 
-中文 / English / 日本語
-
-## 技术栈
+## Stack
 
 - [Astro](https://astro.build) v6
 - TypeScript
-- 纯 CSS（无框架）
+- Plain CSS (no framework)
 
-## 本地开发
+## Development
 
 ```bash
 pnpm install
-pnpm dev
-```
-
-构建：
-
-```bash
-pnpm build   # 输出到 dist/
+pnpm dev      # http://localhost:4321
+pnpm build    # output → dist/
+pnpm test     # unit tests
 ```
