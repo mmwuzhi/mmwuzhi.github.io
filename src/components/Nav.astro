@@ -1,5 +1,6 @@
 ---
 import { type Locale, useTranslations, getLocalePath, locales } from '../i18n/translations';
+import { switchLangPath } from '../i18n/utils';
 
 interface Props {
   locale: Locale;
@@ -9,15 +10,7 @@ interface Props {
 const { locale, currentPath } = Astro.props;
 const tr = useTranslations(locale);
 
-const langLabels: Record<Locale, string> = { zh: '中文', en: 'English', ja: '日本語' };
-
-// Compute the equivalent path in another locale
-function switchLangPath(to: Locale) {
-  if (locale === 'zh') return `/${to}${currentPath === '/' ? '' : currentPath}`;
-  const stripped = currentPath.replace(/^\/(en|ja)/, '');
-  if (to === 'zh') return stripped || '/';
-  return `/${to}${stripped}`;
-}
+const langLabels: Record<Locale, string> = { zh: 'Chinese', en: 'English', ja: 'Japanese' };
 ---
 
 <nav>
@@ -34,7 +27,7 @@ function switchLangPath(to: Locale) {
         onchange="location.href=this.value"
       >
         {locales.map((l) => (
-          <option value={switchLangPath(l)} selected={l === locale}>
+          <option value={switchLangPath(locale, l, currentPath)} selected={l === locale}>
             {langLabels[l]}
           </option>
         ))}
