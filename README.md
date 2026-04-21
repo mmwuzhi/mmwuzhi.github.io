@@ -1,4 +1,4 @@
-# 余白
+# Margins
 
 Personal blog at [mmwuzhi.dev](https://mmwuzhi.dev) — Chinese / English / Japanese.
 
