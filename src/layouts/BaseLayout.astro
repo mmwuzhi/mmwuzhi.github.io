@@ -31,7 +31,6 @@ const currentPath = new URL(Astro.request.url).pathname;
       <slot />
     </main>
     <footer>
-      <span>mmwuzhi.dev</span>
       <div class="footer-links">
         <a href="/rss.xml">RSS</a>
       </div>
@@ -43,8 +42,6 @@ const currentPath = new URL(Astro.request.url).pathname;
   footer {
     border-top: 1px solid var(--border);
     padding: 1.75rem var(--page-x);
-    display: flex;
-    justify-content: space-between;
     font-size: 0.78rem;
     color: var(--text2);
   }
