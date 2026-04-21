@@ -23,7 +23,7 @@ const langLabels: Record<Locale, string> = { zh: '中文', en: 'English', ja: '�
     <div class="lang-select">
       <select
         aria-label="Language"
-        onchange="location.href=this.value"
+        onchange="var l=this.value.startsWith('/en')?'en':this.value.startsWith('/ja')?'ja':'zh';localStorage.setItem('preferred-lang',l);location.href=this.value"
       >
         {locales.map((l) => (
           <option value={switchLangPath(locale, l, currentPath)} selected={l === locale}>

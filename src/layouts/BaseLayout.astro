@@ -24,6 +24,20 @@ const currentPath = new URL(Astro.request.url).pathname;
     <link rel="alternate" hreflang="zh" href="https://mmwuzhi.dev/" />
     <link rel="alternate" hreflang="en" href="https://mmwuzhi.dev/en/" />
     <link rel="alternate" hreflang="ja" href="https://mmwuzhi.dev/ja/" />
+    <script is:inline>
+      (function () {
+        var path = location.pathname;
+        var isHome = path === '/' || /^\/(en|ja)\/?$/.test(path);
+        if (!isHome) return;
+        var stored = localStorage.getItem('preferred-lang');
+        var browser = (navigator.language || 'zh').split('-')[0];
+        var lang = stored || (browser === 'en' ? 'en' : browser === 'ja' ? 'ja' : 'zh');
+        var current = path.startsWith('/en') ? 'en' : path.startsWith('/ja') ? 'ja' : 'zh';
+        if (lang !== current) {
+          location.replace(lang === 'en' ? '/en/' : lang === 'ja' ? '/ja/' : '/');
+        }
+      })();
+    </script>
   </head>
   <body>
     <Nav locale={locale} currentPath={currentPath} />
