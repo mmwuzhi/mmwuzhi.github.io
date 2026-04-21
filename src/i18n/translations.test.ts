@@ -28,19 +28,19 @@ describe('getLocalePath', () => {
 });
 
 describe('useTranslations', () => {
-  it('returns zh translations for zh locale', () => {
+  it('returns zh hero description', () => {
     const tr = useTranslations('zh');
-    expect(tr.nav.blog).toBe('文章');
+    expect(tr.hero.description).toContain('记录');
   });
 
-  it('returns en translations for en locale', () => {
+  it('returns en hero description', () => {
     const tr = useTranslations('en');
-    expect(tr.nav.blog).toBe('Blog');
+    expect(tr.hero.description).toContain('technology');
   });
 
-  it('returns ja translations for ja locale', () => {
+  it('returns ja hero description', () => {
     const tr = useTranslations('ja');
-    expect(tr.nav.blog).toBe('記事');
+    expect(tr.hero.description).toContain('技術');
   });
 });
 

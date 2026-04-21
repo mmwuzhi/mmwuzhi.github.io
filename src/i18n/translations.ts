@@ -6,10 +6,6 @@ export const defaultLocale: Locale = 'zh';
 export const t = {
   zh: {
     siteTitle: '余白',
-    nav: {
-      blog: '文章',
-      about: '关于',
-    },
     hero: {
       title: ['慢慢试试，', '找找感觉'],
       titleAccent: 1,
@@ -32,10 +28,6 @@ export const t = {
   },
   en: {
     siteTitle: '余白',
-    nav: {
-      blog: 'Blog',
-      about: 'About',
-    },
     hero: {
       title: ['Taking it ', 'slow,'],
       subtitle: 'finding the feel.',
@@ -60,10 +52,6 @@ export const t = {
   },
   ja: {
     siteTitle: '余白',
-    nav: {
-      blog: '記事',
-      about: '自己紹介',
-    },
     hero: {
       title: ['ゆっくりと、', '感覚を探して'],
       titleAccent: 1,

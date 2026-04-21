@@ -24,7 +24,7 @@ const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
 <BaseLayout {locale} title={`Blog — 余白`}>
   <div class="page">
     <div class="rule"></div>
-    <h1>{tr.nav.blog}</h1>
+    <h1>Blog</h1>
 
     {years.length === 0
       ? <p class="empty">{tr.posts.empty}</p>

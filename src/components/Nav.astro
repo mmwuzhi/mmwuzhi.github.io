@@ -1,5 +1,5 @@
 ---
-import { type Locale, useTranslations, getLocalePath, locales } from '../i18n/translations';
+import { type Locale, getLocalePath, locales } from '../i18n/translations';
 import { switchLangPath } from '../i18n/utils';
 
 interface Props {
@@ -8,7 +8,6 @@ interface Props {
 }
 
 const { locale, currentPath } = Astro.props;
-const tr = useTranslations(locale);
 
 const langLabels: Record<Locale, string> = { zh: '中文', en: 'English', ja: '日本語' };
 ---
