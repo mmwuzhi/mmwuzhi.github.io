@@ -8,7 +8,7 @@ const blog = defineCollection({
     date: z.coerce.date(),
     category: z.string(),
     lang: z.enum(['zh', 'en', 'ja']),
-    slug: z.string(),
+    postSlug: z.string(),
   }),
 });
 

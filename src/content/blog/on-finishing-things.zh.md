@@ -3,7 +3,7 @@ title: 关于把东西做完这件事
 date: 2026-03-10
 category: 随笔
 lang: zh
-slug: on-finishing-things
+postSlug: on-finishing-things
 ---
 
 我有很多没做完的项目。

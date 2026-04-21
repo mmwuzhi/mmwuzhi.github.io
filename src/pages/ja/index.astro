@@ -11,7 +11,7 @@ const posts = (await getCollection('blog', ({ data }) => data.lang === 'ja'))
     title: p.data.title,
     date: p.data.date,
     category: p.data.category,
-    slug: p.data.slug,
+    slug: p.data.postSlug,
   }));
 ---
 

@@ -3,7 +3,7 @@ title: ものごとをちゃんと完成させることについて
 date: 2026-03-10
 category: エッセイ
 lang: ja
-slug: on-finishing-things
+postSlug: on-finishing-things
 ---
 
 未完成のプロジェクトがたくさんある。

@@ -10,7 +10,7 @@ const tr = useTranslations(locale);
 
 const posts = (await getCollection('blog', ({ data }) => data.lang === locale))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .map((p) => ({ title: p.data.title, date: p.data.date, category: p.data.category, slug: p.data.slug }));
+  .map((p) => ({ title: p.data.title, date: p.data.date, category: p.data.category, slug: p.data.postSlug }));
 
 const byYear = posts.reduce<Record<number, typeof posts>>((acc, p) => {
   const y = p.date.getFullYear();

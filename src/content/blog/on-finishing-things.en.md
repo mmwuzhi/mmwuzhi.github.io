@@ -3,7 +3,7 @@ title: On Actually Finishing Things
 date: 2026-03-10
 category: Essay
 lang: en
-slug: on-finishing-things
+postSlug: on-finishing-things
 ---
 
 I have a lot of unfinished projects.
