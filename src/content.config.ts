@@ -25,4 +25,12 @@ const garden = defineCollection({
   }),
 });
 
-export const collections = { blog, garden };
+const now = defineCollection({
+  loader: glob({ pattern: '*.md', base: './src/content/now' }),
+  schema: z.object({
+    updated: z.coerce.date(),
+    lang: z.enum(['zh', 'en', 'ja']),
+  }),
+});
+
+export const collections = { blog, garden, now };

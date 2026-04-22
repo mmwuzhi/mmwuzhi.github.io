@@ -1,0 +1,63 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import { type Locale } from '../i18n/translations';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+
+const entries = await getCollection('now', ({ data }) => data.lang === locale);
+const entry = entries[0];
+const { Content } = entry ? await render(entry) : { Content: null };
+
+const updatedStr = entry?.data.updated.toLocaleDateString(
+  locale === 'zh' ? 'zh-CN' : locale === 'ja' ? 'ja-JP' : 'en-US',
+  { year: 'numeric', month: 'long', day: 'numeric' }
+);
+---
+
+<BaseLayout {locale} title="Now — 余白">
+  <div class="page" lang={locale}>
+    <div class="rule"></div>
+    <h1>Now</h1>
+    {updatedStr && <p class="updated">Last updated: {updatedStr}</p>}
+    <div class="prose">
+      {Content ? <Content /> : <p>Nothing here yet.</p>}
+    </div>
+    <p class="nownownow">
+      <a href="https://nownownow.com/about" target="_blank" rel="noopener">What is a Now page?</a>
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 5rem var(--page-x) 6rem;
+  }
+
+  .rule { width: 28px; height: 2px; background: var(--accent); margin-bottom: 2rem; }
+
+  h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+
+  .updated {
+    font-size: 0.78rem;
+    color: var(--text2);
+    font-family: var(--sans);
+    margin-bottom: 2.5rem;
+  }
+
+  .nownownow {
+    margin-top: 4rem;
+    font-size: 0.78rem;
+  }
+
+  .nownownow a {
+    color: var(--text2);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .nownownow a:hover { color: var(--accent); }
+</style>
