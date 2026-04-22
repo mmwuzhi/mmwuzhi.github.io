@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import AstroPWA from '@vite-pwa/astro';
+import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://mmwuzhi.dev',
@@ -13,6 +14,7 @@ export default defineConfig({
     },
   },
   integrations: [
+    sitemap({ i18n: { defaultLocale: 'zh', locales: { zh: 'zh-CN', en: 'en', ja: 'ja' } } }),
     AstroPWA({
       registerType: 'autoUpdate',
       manifest: {
