@@ -21,6 +21,14 @@ const currentPath = new URL(Astro.request.url).pathname;
     <meta name="description" content={description} />
     <title>{title}</title>
     <link rel="icon" href="/favicon.ico" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:site_name" content="余白" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
     <link rel="alternate" hreflang="zh" href="https://mmwuzhi.dev/" />
     <link rel="alternate" hreflang="en" href="https://mmwuzhi.dev/en/" />
     <link rel="alternate" hreflang="ja" href="https://mmwuzhi.dev/ja/" />

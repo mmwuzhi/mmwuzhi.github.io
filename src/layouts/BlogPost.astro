@@ -19,7 +19,7 @@ const dateStr = date.toLocaleDateString(
 );
 ---
 
-<BaseLayout {locale} {title}>
+<BaseLayout {locale} {title} description={`${category} · ${dateStr}`}>
   <article class="post" lang={locale}>
     <div class="header">
       <a href={getLocalePath(locale, 'blog')} class="back">{tr.posts.back}</a>
