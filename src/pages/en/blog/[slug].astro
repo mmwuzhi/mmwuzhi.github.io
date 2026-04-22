@@ -1,16 +1,18 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BlogPost from '../../../layouts/BlogPost.astro';
+import { getAdjacentPosts } from '../../../utils/adjacentPosts';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => data.lang === 'en');
+  const stubs = posts.map((p) => ({ postSlug: p.data.postSlug, date: p.data.date, title: p.data.title }));
   return posts.map((post) => ({
     params: { slug: post.data.postSlug },
-    props: { post },
+    props: { post, adjacent: getAdjacentPosts(stubs, post.data.postSlug) },
   }));
 }
 
-const { post } = Astro.props;
+const { post, adjacent } = Astro.props;
 const { Content } = await render(post);
 ---
 
@@ -20,6 +22,8 @@ const { Content } = await render(post);
   date={post.data.date}
   category={post.data.category}
   body={post.body ?? ""}
+  prev={adjacent.prev}
+  next={adjacent.next}
 >
   <Content />
 </BlogPost>

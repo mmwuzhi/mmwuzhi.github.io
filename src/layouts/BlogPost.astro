@@ -3,6 +3,7 @@ import BaseLayout from './BaseLayout.astro';
 import Giscus from '../components/Giscus.astro';
 import { useTranslations, getLocalePath, type Locale } from '../i18n/translations';
 import { estimateReadingTime } from '../utils/readingTime';
+import type { PostStub } from '../utils/adjacentPosts';
 
 interface Props {
   locale: Locale;
@@ -10,9 +11,11 @@ interface Props {
   date: Date;
   category: string;
   body: string;
+  prev?: PostStub | null;
+  next?: PostStub | null;
 }
 
-const { locale, title, date, category, body } = Astro.props;
+const { locale, title, date, category, body, prev = null, next = null } = Astro.props;
 const readingTime = estimateReadingTime(body, locale);
 const tr = useTranslations(locale);
 
@@ -34,6 +37,26 @@ const dateStr = date.toLocaleDateString(
       <slot />
     </div>
   </article>
+
+  {(prev || next) && (
+    <nav class="adjacent">
+      <div class="adjacent-inner">
+        {next && (
+          <a href={getLocalePath(locale, `blog/${next.postSlug}`)} class="adj-link adj-next">
+            <span class="adj-label">← Older</span>
+            <span class="adj-title">{next.title}</span>
+          </a>
+        )}
+        {prev && (
+          <a href={getLocalePath(locale, `blog/${prev.postSlug}`)} class="adj-link adj-prev">
+            <span class="adj-label">Newer →</span>
+            <span class="adj-title">{prev.title}</span>
+          </a>
+        )}
+      </div>
+    </nav>
+  )}
+
   <Giscus {locale} />
 </BaseLayout>
 
@@ -75,4 +98,45 @@ const dateStr = date.toLocaleDateString(
     margin-bottom: 3rem;
     font-family: var(--sans);
   }
+
+  .adjacent {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 0 3rem;
+  }
+
+  .adjacent-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--page-x);
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .adj-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    text-decoration: none;
+    max-width: 46%;
+  }
+
+  .adj-prev { align-items: flex-end; margin-left: auto; }
+
+  .adj-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text2);
+    font-family: var(--sans);
+  }
+
+  .adj-title {
+    font-size: 0.9rem;
+    color: var(--text);
+    transition: color 0.15s;
+    line-height: 1.4;
+  }
+
+  .adj-link:hover .adj-title { color: var(--accent); }
 </style>
