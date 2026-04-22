@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout locale="zh" title="404 — 余白">
+  <div class="page">
+    <div class="rule"></div>
+    <p class="code">404</p>
+    <h1>Page not found</h1>
+    <p class="sub">This page doesn't exist, or may have been moved.</p>
+    <a href="/" class="home">← Home</a>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 8rem var(--page-x);
+  }
+
+  .rule {
+    width: 28px;
+    height: 2px;
+    background: var(--accent);
+    margin-bottom: 2rem;
+  }
+
+  .code {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text2);
+    font-family: var(--sans);
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .sub {
+    color: var(--text2);
+    margin-bottom: 2.5rem;
+    font-size: 0.95rem;
+  }
+
+  .home {
+    font-size: 0.85rem;
+    color: var(--text2);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .home:hover { color: var(--accent); }
+</style>
