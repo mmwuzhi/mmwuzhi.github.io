@@ -1,0 +1,28 @@
+---
+import { getCollection, render } from 'astro:content';
+import GardenNote from '../../../layouts/GardenNote.astro';
+import { findBacklinks } from '../../../utils/backlinks';
+
+export async function getStaticPaths() {
+  const notes = await getCollection('garden', ({ data }) => data.lang === 'ja');
+  const stubs = notes.map((n) => ({ postSlug: n.data.postSlug, title: n.data.title, body: n.body ?? '' }));
+  return notes.map((note) => ({
+    params: { slug: note.data.postSlug },
+    props: { note, backlinks: findBacklinks(stubs, note.data.postSlug) },
+  }));
+}
+
+const { note, backlinks } = Astro.props;
+const { Content } = await render(note);
+---
+
+<GardenNote
+  locale="ja"
+  title={note.data.title}
+  updated={note.data.updated}
+  stage={note.data.stage}
+  tags={note.data.tags}
+  {backlinks}
+>
+  <Content />
+</GardenNote>

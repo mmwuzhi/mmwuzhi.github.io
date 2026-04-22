@@ -1,0 +1,124 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import { useTranslations, getLocalePath, type Locale } from '../i18n/translations';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const tr = useTranslations(locale);
+
+const stageOrder = ['evergreen', 'budding', 'seedling'] as const;
+const stageIcon = { evergreen: '🌲', budding: '🌿', seedling: '🌱' };
+
+const allNotes = (await getCollection('garden', ({ data }) => data.lang === locale))
+  .sort((a, b) => b.data.updated.valueOf() - a.data.updated.valueOf());
+
+const byStage = Object.fromEntries(
+  stageOrder.map((s) => [s, allNotes.filter((n) => n.data.stage === s)])
+);
+
+const activeTag = Astro.url.searchParams.get('tag');
+const allTags = [...new Set(allNotes.flatMap((n) => n.data.tags))].sort();
+const filtered = activeTag ? allNotes.filter((n) => n.data.tags.includes(activeTag)) : null;
+---
+
+<BaseLayout {locale} title="Garden — 余白">
+  <div class="page">
+    <div class="rule"></div>
+    <h1>Garden</h1>
+    <p class="intro">
+      {locale === 'zh' && '笔记的花园——有些成熟，有些还在生长，有些刚刚萌芽。'}
+      {locale === 'en' && 'A garden of notes — some mature, some growing, some just planted.'}
+      {locale === 'ja' && 'ノートの庭 — 成熟したもの、育ちつつあるもの、まだ芽吹いたばかりのもの。'}
+    </p>
+
+    {allTags.length > 0 && (
+      <div class="tags">
+        <a href={getLocalePath(locale, 'garden')} class:list={['tag', { active: !activeTag }]}>All</a>
+        {allTags.map((tag) => (
+          <a
+            href={`${getLocalePath(locale, 'garden')}?tag=${encodeURIComponent(tag)}`}
+            class:list={['tag', { active: tag === activeTag }]}
+          >
+            {tag}
+          </a>
+        ))}
+      </div>
+    )}
+
+    {filtered ? (
+      <div class="note-list">
+        {filtered.map((note) => (
+          <a href={getLocalePath(locale, `garden/${note.data.postSlug}`)} class="note-row">
+            <span class="note-icon">{stageIcon[note.data.stage]}</span>
+            <span class="note-title">{note.data.title}</span>
+          </a>
+        ))}
+      </div>
+    ) : stageOrder.map((stage) => byStage[stage].length > 0 && (
+      <div class="stage-group">
+        <div class="stage-label">{stageIcon[stage]} {tr.garden.stages[stage]}</div>
+        <div class="note-list">
+          {byStage[stage].map((note) => (
+            <a href={getLocalePath(locale, `garden/${note.data.postSlug}`)} class="note-row">
+              <span class="note-title">{note.data.title}</span>
+              {note.data.tags.map((tag) => <span class="note-tag">{tag}</span>)}
+            </a>
+          ))}
+        </div>
+      </div>
+    ))}
+
+    {allNotes.length === 0 && <p class="empty">{tr.garden.empty}</p>}
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 5rem var(--page-x);
+  }
+
+  .rule { width: 28px; height: 2px; background: var(--accent); margin-bottom: 2rem; }
+
+  h1 { font-size: 1.5rem; margin-bottom: 0.75rem; }
+
+  .intro { color: var(--text2); font-size: 0.9rem; margin-bottom: 2rem; line-height: 1.6; }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 2.5rem; }
+
+  .tag {
+    font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase;
+    font-family: var(--sans); color: var(--text2); text-decoration: none;
+    border: 1px solid var(--border); border-radius: 2px; padding: 0.18rem 0.6rem;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .tag:hover, .tag.active { color: var(--accent); border-color: var(--accent); }
+
+  .stage-group { margin-bottom: 2.5rem; }
+
+  .stage-label {
+    font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--text2); font-family: var(--sans); margin-bottom: 0.75rem;
+  }
+
+  .note-list { display: flex; flex-direction: column; gap: 0; }
+
+  .note-row {
+    display: flex; align-items: baseline; gap: 0.75rem;
+    padding: 0.65rem 1.25rem; text-decoration: none; color: var(--text);
+    border-left: 2px solid transparent; transition: border-color 0.15s, color 0.15s;
+  }
+  .note-row:hover { border-left-color: var(--accent); color: var(--accent); }
+
+  .note-icon { font-size: 0.85rem; }
+  .note-title { font-size: 0.95rem; }
+
+  .note-tag {
+    font-size: 0.65rem; color: var(--text2); font-family: var(--sans);
+    letter-spacing: 0.06em;
+  }
+
+  .empty { color: var(--text2); font-size: 0.9rem; }
+</style>

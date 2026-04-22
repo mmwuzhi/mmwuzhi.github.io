@@ -12,4 +12,17 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { blog };
+const garden = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/garden' }),
+  schema: z.object({
+    title: z.string(),
+    created: z.coerce.date(),
+    updated: z.coerce.date(),
+    stage: z.enum(['seedling', 'budding', 'evergreen']),
+    tags: z.array(z.string()).default([]),
+    lang: z.enum(['zh', 'en', 'ja']),
+    postSlug: z.string(),
+  }),
+});
+
+export const collections = { blog, garden };

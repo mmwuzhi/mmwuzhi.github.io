@@ -17,14 +17,14 @@ export const t = {
       back: '← 文章列表',
       empty: '还没有文章。',
     },
-    footer: {
-      tagline: '余白',
+    garden: {
+      backlinks: '被以下笔记引用',
+      updated: '更新于',
+      empty: '还没有笔记。',
+      stages: { seedling: '萌芽', budding: '生长', evergreen: '常青' },
     },
-    lang: {
-      zh: '中文',
-      en: 'English',
-      ja: '日本語',
-    },
+    footer: { tagline: '余白' },
+    lang: { zh: '中文', en: 'English', ja: '日本語' },
   },
   en: {
     siteTitle: '余白',
@@ -32,8 +32,7 @@ export const t = {
       title: ['Taking it ', 'slow,'],
       subtitle: 'finding the feel.',
       titleAccent: 1,
-      description:
-        'Notes on technology and everyday life — written for myself, and for anyone who passes by.',
+      description: 'Notes on technology and everyday life — written for myself, and for anyone who passes by.',
     },
     posts: {
       header: 'Recent Posts',
@@ -41,14 +40,14 @@ export const t = {
       back: '← All Posts',
       empty: 'No posts yet.',
     },
-    footer: {
-      tagline: '余白',
+    garden: {
+      backlinks: 'Referenced by',
+      updated: 'Updated',
+      empty: 'No notes yet.',
+      stages: { seedling: 'Seedling', budding: 'Budding', evergreen: 'Evergreen' },
     },
-    lang: {
-      zh: '中文',
-      en: 'English',
-      ja: '日本語',
-    },
+    footer: { tagline: '余白' },
+    lang: { zh: '中文', en: 'English', ja: '日本語' },
   },
   ja: {
     siteTitle: '余白',
@@ -63,14 +62,14 @@ export const t = {
       back: '← 記事一覧',
       empty: 'まだ記事がありません。',
     },
-    footer: {
-      tagline: '余白',
+    garden: {
+      backlinks: '参照元',
+      updated: '更新',
+      empty: 'まだノートがありません。',
+      stages: { seedling: '芽生え', budding: '成長中', evergreen: '常緑' },
     },
-    lang: {
-      zh: '中文',
-      en: 'English',
-      ja: '日本語',
-    },
+    footer: { tagline: '余白' },
+    lang: { zh: '中文', en: 'English', ja: '日本語' },
   },
 } as const;
 
