@@ -34,6 +34,13 @@ const currentPath = new URL(Astro.request.url).pathname;
     <link rel="alternate" hreflang="ja" href="https://mmwuzhi.dev/ja/" />
     <script is:inline>
       (function () {
+        var s = localStorage.getItem('theme');
+        var d = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.setAttribute('data-theme', s || (d ? 'dark' : 'light'));
+      })();
+    </script>
+    <script is:inline>
+      (function () {
         var path = location.pathname;
         var isHome = path === '/' || /^\/(en|ja)\/?$/.test(path);
         if (!isHome) return;

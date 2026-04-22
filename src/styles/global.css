@@ -12,6 +12,35 @@
   --page-x: 4rem;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #18160f;
+    --text: #e8ddd0;
+    --text2: #8a7a6a;
+    --border: #2c2820;
+  }
+
+  .prose code,
+  .prose pre { background: #211e17; }
+}
+
+[data-theme='dark'] {
+  --bg: #18160f;
+  --text: #e8ddd0;
+  --text2: #8a7a6a;
+  --border: #2c2820;
+}
+
+[data-theme='dark'] .prose code,
+[data-theme='dark'] .prose pre { background: #211e17; }
+
+[data-theme='light'] {
+  --bg: #faf7f2;
+  --text: #1e1a16;
+  --text2: #9a8470;
+  --border: #e8ddd0;
+}
+
 html { scroll-behavior: smooth; }
 
 body {
