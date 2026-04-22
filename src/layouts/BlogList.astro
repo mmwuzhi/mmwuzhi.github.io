@@ -3,14 +3,19 @@ import { getCollection } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
 import PostItem from '../components/PostItem.astro';
 import { useTranslations, getLocalePath, type Locale } from '../i18n/translations';
+import { getCategories } from '../utils/filterPosts';
 
 interface Props { locale: Locale; }
 const { locale } = Astro.props;
 const tr = useTranslations(locale);
 
-const posts = (await getCollection('blog', ({ data }) => data.lang === locale))
+const allPosts = (await getCollection('blog', ({ data }) => data.lang === locale))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .map((p) => ({ title: p.data.title, date: p.data.date, category: p.data.category, slug: p.data.postSlug }));
+
+const categories = getCategories(allPosts);
+const activeCategory = Astro.url.searchParams.get('category');
+const posts = activeCategory ? allPosts.filter((p) => p.category === activeCategory) : allPosts;
 
 const byYear = posts.reduce<Record<number, typeof posts>>((acc, p) => {
   const y = p.date.getFullYear();
@@ -25,6 +30,22 @@ const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
   <div class="page">
     <div class="rule"></div>
     <h1>Blog</h1>
+
+    {categories.length > 0 && (
+      <div class="filters">
+        <a href={getLocalePath(locale, 'blog')} class:list={['filter', { active: !activeCategory }]}>
+          All
+        </a>
+        {categories.map((cat) => (
+          <a
+            href={`${getLocalePath(locale, 'blog')}?category=${encodeURIComponent(cat)}`}
+            class:list={['filter', { active: cat === activeCategory }]}
+          >
+            {cat}
+          </a>
+        ))}
+      </div>
+    )}
 
     {years.length === 0
       ? <p class="empty">{tr.posts.empty}</p>
@@ -64,7 +85,33 @@ const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
 
   h1 {
     font-size: 1.5rem;
-    margin-bottom: 3rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .filter {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: var(--sans);
+    color: var(--text2);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 0.2rem 0.65rem;
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  .filter:hover,
+  .filter.active {
+    color: var(--accent);
+    border-color: var(--accent);
   }
 
   .year-group { margin-bottom: 2.5rem; }
