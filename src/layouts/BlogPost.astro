@@ -2,15 +2,18 @@
 import BaseLayout from './BaseLayout.astro';
 import Giscus from '../components/Giscus.astro';
 import { useTranslations, getLocalePath, type Locale } from '../i18n/translations';
+import { estimateReadingTime } from '../utils/readingTime';
 
 interface Props {
   locale: Locale;
   title: string;
   date: Date;
   category: string;
+  body: string;
 }
 
-const { locale, title, date, category } = Astro.props;
+const { locale, title, date, category, body } = Astro.props;
+const readingTime = estimateReadingTime(body, locale);
 const tr = useTranslations(locale);
 
 const dateStr = date.toLocaleDateString(
@@ -25,7 +28,7 @@ const dateStr = date.toLocaleDateString(
       <a href={getLocalePath(locale, 'blog')} class="back">{tr.posts.back}</a>
       <div class="rule"></div>
       <h1>{title}</h1>
-      <div class="meta">{dateStr} · {category}</div>
+      <div class="meta">{dateStr} · {category} · {readingTime}</div>
     </div>
     <div class="prose">
       <slot />

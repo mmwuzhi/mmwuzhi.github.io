@@ -19,6 +19,7 @@ const { Content } = await render(post);
   title={post.data.title}
   date={post.data.date}
   category={post.data.category}
+  body={post.body ?? ""}
 >
   <Content />
 </BlogPost>
