@@ -131,8 +131,8 @@ const langLabels: Record<Locale, string> = { zh: '中文', en: 'English', ja: '�
   .theme-toggle:hover { color: var(--accent); }
 
   .icon-dark { display: none; }
-  [data-theme='dark'] .icon-light { display: none; }
-  [data-theme='dark'] .icon-dark { display: inline; }
+  :global([data-theme='dark']) .icon-light { display: none; }
+  :global([data-theme='dark']) .icon-dark { display: inline; }
 
   .arrow {
     position: absolute;
