@@ -23,8 +23,8 @@ const langLabels: Record<Locale, string> = { zh: '中文', en: 'English', ja: '�
       <li><a href="https://github.com/mmwuzhi" target="_blank" rel="noopener">GitHub</a></li>
     </ul>
     <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
-      <span class="icon-light">○</span>
-      <span class="icon-dark">●</span>
+      <span class="icon-light">☀️</span>
+      <span class="icon-dark">🌙</span>
     </button>
     <div class="lang-select">
       <select
@@ -151,6 +151,12 @@ const langLabels: Record<Locale, string> = { zh: '中文', en: 'English', ja: '�
 </style>
 
 <script>
+  // Preserve data-theme across View Transitions (Astro rebuilds <html> on each nav)
+  document.addEventListener('astro:before-swap', (e) => {
+    const theme = document.documentElement.getAttribute('data-theme');
+    if (theme) (e as any).newDocument.documentElement.setAttribute('data-theme', theme);
+  });
+
   function initNav() {
     const btn = document.getElementById('theme-toggle');
     if (!btn) return;

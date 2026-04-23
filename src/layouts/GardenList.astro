@@ -17,9 +17,7 @@ const byStage = Object.fromEntries(
   stageOrder.map((s) => [s, allNotes.filter((n) => n.data.stage === s)])
 );
 
-const activeTag = Astro.url.searchParams.get('tag');
 const allTags = [...new Set(allNotes.flatMap((n) => n.data.tags))].sort();
-const filtered = activeTag ? allNotes.filter((n) => n.data.tags.includes(activeTag)) : null;
 ---
 
 <BaseLayout {locale} title="Garden — 余白">
@@ -33,43 +31,34 @@ const filtered = activeTag ? allNotes.filter((n) => n.data.tags.includes(activeT
     </p>
 
     {allTags.length > 0 && (
-      <div class="tags">
-        <a href={getLocalePath(locale, 'garden')} class:list={['tag', { active: !activeTag }]}>All</a>
+      <div class="tags" id="garden-tags">
+        <button class="tag active" data-tag="">All</button>
         {allTags.map((tag) => (
-          <a
-            href={`${getLocalePath(locale, 'garden')}?tag=${encodeURIComponent(tag)}`}
-            class:list={['tag', { active: tag === activeTag }]}
-          >
-            {tag}
-          </a>
+          <button class="tag" data-tag={tag}>{tag}</button>
         ))}
       </div>
     )}
 
-    {filtered ? (
-      <div class="note-list">
-        {filtered.map((note) => (
-          <a href={getLocalePath(locale, `garden/${note.data.postSlug}`)} class="note-row">
-            <span class="note-icon">{stageIcon[note.data.stage]}</span>
-            <span class="note-title">{note.data.title}</span>
-          </a>
-        ))}
-      </div>
-    ) : stageOrder.map((stage) => byStage[stage].length > 0 && (
-      <div class="stage-group">
-        <div class="stage-label">{stageIcon[stage]} {tr.garden.stages[stage]}</div>
-        <div class="note-list">
-          {byStage[stage].map((note) => (
-            <a href={getLocalePath(locale, `garden/${note.data.postSlug}`)} class="note-row">
-              <span class="note-title">{note.data.title}</span>
-              {note.data.tags.map((tag) => <span class="note-tag">{tag}</span>)}
-            </a>
-          ))}
-        </div>
-      </div>
-    ))}
-
-    {allNotes.length === 0 && <p class="empty">{tr.garden.empty}</p>}
+    {allNotes.length === 0
+      ? <p class="empty">{tr.garden.empty}</p>
+      : stageOrder.map((stage) => byStage[stage].length > 0 && (
+          <div class="stage-group">
+            <div class="stage-label">{stageIcon[stage]} {tr.garden.stages[stage]}</div>
+            <div class="note-list">
+              {byStage[stage].map((note) => (
+                <a
+                  href={getLocalePath(locale, `garden/${note.data.postSlug}`)}
+                  class="note-row"
+                  data-note-tags={JSON.stringify(note.data.tags)}
+                >
+                  <span class="note-title">{note.data.title}</span>
+                  {note.data.tags.map((tag) => <span class="note-tag">{tag}</span>)}
+                </a>
+              ))}
+            </div>
+          </div>
+        ))
+    }
   </div>
 </BaseLayout>
 
@@ -90,9 +79,9 @@ const filtered = activeTag ? allNotes.filter((n) => n.data.tags.includes(activeT
 
   .tag {
     font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase;
-    font-family: var(--sans); color: var(--text2); text-decoration: none;
+    font-family: var(--sans); color: var(--text2); background: none;
     border: 1px solid var(--border); border-radius: 2px; padding: 0.18rem 0.6rem;
-    transition: color 0.15s, border-color 0.15s;
+    cursor: pointer; transition: color 0.15s, border-color 0.15s;
   }
   .tag:hover, .tag.active { color: var(--accent); border-color: var(--accent); }
 
@@ -112,7 +101,6 @@ const filtered = activeTag ? allNotes.filter((n) => n.data.tags.includes(activeT
   }
   .note-row:hover { border-left-color: var(--accent); color: var(--accent); }
 
-  .note-icon { font-size: 0.85rem; }
   .note-title { font-size: 0.95rem; }
 
   .note-tag {
@@ -122,3 +110,40 @@ const filtered = activeTag ? allNotes.filter((n) => n.data.tags.includes(activeT
 
   .empty { color: var(--text2); font-size: 0.9rem; }
 </style>
+
+<script>
+  function initGardenTags() {
+    const btns = document.querySelectorAll<HTMLButtonElement>('#garden-tags .tag');
+    if (!btns.length) return;
+
+    function applyTag(tag: string) {
+      btns.forEach(b => b.classList.toggle('active', b.dataset.tag === tag));
+
+      document.querySelectorAll<HTMLElement>('[data-note-tags]').forEach(el => {
+        const tags: string[] = JSON.parse(el.dataset.noteTags ?? '[]');
+        el.style.display = (!tag || tags.includes(tag)) ? '' : 'none';
+      });
+
+      document.querySelectorAll<HTMLElement>('.stage-group').forEach(group => {
+        const hasVisible = [...group.querySelectorAll<HTMLElement>('[data-note-tags]')]
+          .some(el => el.style.display !== 'none');
+        group.style.display = hasVisible ? '' : 'none';
+      });
+    }
+
+    const initTag = new URLSearchParams(location.search).get('tag') ?? '';
+    applyTag(initTag);
+
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tag = btn.dataset.tag ?? '';
+        const url = new URL(location.href);
+        tag ? url.searchParams.set('tag', tag) : url.searchParams.delete('tag');
+        history.pushState({}, '', url);
+        applyTag(tag);
+      });
+    });
+  }
+
+  document.addEventListener('astro:page-load', initGardenTags);
+</script>
