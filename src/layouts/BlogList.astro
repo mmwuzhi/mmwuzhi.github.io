@@ -14,10 +14,8 @@ const allPosts = (await getCollection('blog', ({ data }) => data.lang === locale
   .map((p) => ({ title: p.data.title, date: p.data.date, category: p.data.category, slug: p.data.postSlug }));
 
 const categories = getCategories(allPosts);
-const activeCategory = Astro.url.searchParams.get('category');
-const posts = activeCategory ? allPosts.filter((p) => p.category === activeCategory) : allPosts;
 
-const byYear = posts.reduce<Record<number, typeof posts>>((acc, p) => {
+const byYear = allPosts.reduce<Record<number, typeof allPosts>>((acc, p) => {
   const y = p.date.getFullYear();
   (acc[y] ??= []).push(p);
   return acc;
@@ -32,17 +30,10 @@ const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
     <h1>Blog</h1>
 
     {categories.length > 0 && (
-      <div class="filters">
-        <a href={getLocalePath(locale, 'blog')} class:list={['filter', { active: !activeCategory }]}>
-          All
-        </a>
+      <div class="filters" id="blog-filters">
+        <button class="filter active" data-cat="">All</button>
         {categories.map((cat) => (
-          <a
-            href={`${getLocalePath(locale, 'blog')}?category=${encodeURIComponent(cat)}`}
-            class:list={['filter', { active: cat === activeCategory }]}
-          >
-            {cat}
-          </a>
+          <button class="filter" data-cat={cat}>{cat}</button>
         ))}
       </div>
     )}
@@ -54,13 +45,15 @@ const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
             <div class="year-label">{year}</div>
             <div class="list">
               {byYear[year].map((p) => (
-                <PostItem
-                  title={p.title}
-                  date={p.date}
-                  category={p.category}
-                  href={getLocalePath(locale, `blog/${p.slug}`)}
-                  {locale}
-                />
+                <div data-post-cat={p.category}>
+                  <PostItem
+                    title={p.title}
+                    date={p.date}
+                    category={p.category}
+                    href={getLocalePath(locale, `blog/${p.slug}`)}
+                    {locale}
+                  />
+                </div>
               ))}
             </div>
           </div>
@@ -101,10 +94,11 @@ const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
     text-transform: uppercase;
     font-family: var(--sans);
     color: var(--text2);
-    text-decoration: none;
+    background: none;
     border: 1px solid var(--border);
     border-radius: 2px;
     padding: 0.2rem 0.65rem;
+    cursor: pointer;
     transition: color 0.15s, border-color 0.15s;
   }
 
@@ -131,3 +125,39 @@ const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
     font-size: 0.9rem;
   }
 </style>
+
+<script>
+  function initFilters() {
+    const btns = document.querySelectorAll<HTMLButtonElement>('#blog-filters .filter');
+    if (!btns.length) return;
+
+    function applyFilter(cat: string) {
+      btns.forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
+
+      document.querySelectorAll<HTMLElement>('[data-post-cat]').forEach(el => {
+        el.style.display = (!cat || el.dataset.postCat === cat) ? '' : 'none';
+      });
+
+      document.querySelectorAll<HTMLElement>('.year-group').forEach(group => {
+        const hasVisible = [...group.querySelectorAll<HTMLElement>('[data-post-cat]')]
+          .some(el => el.style.display !== 'none');
+        group.style.display = hasVisible ? '' : 'none';
+      });
+    }
+
+    const initCat = new URLSearchParams(location.search).get('category') ?? '';
+    applyFilter(initCat);
+
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cat = btn.dataset.cat ?? '';
+        const url = new URL(location.href);
+        cat ? url.searchParams.set('category', cat) : url.searchParams.delete('category');
+        history.pushState({}, '', url);
+        applyFilter(cat);
+      });
+    });
+  }
+
+  document.addEventListener('astro:page-load', initFilters);
+</script>

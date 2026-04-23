@@ -41,6 +41,10 @@
   --border: #e8ddd0;
 }
 
+@media (max-width: 640px) {
+  :root { --page-x: 1.25rem; }
+}
+
 html { scroll-behavior: smooth; }
 
 body {

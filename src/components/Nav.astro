@@ -23,8 +23,8 @@ const langLabels: Record<Locale, string> = { zh: '中文', en: 'English', ja: '�
       <li><a href="https://github.com/mmwuzhi" target="_blank" rel="noopener">GitHub</a></li>
     </ul>
     <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
-      <span class="icon-light">☀</span>
-      <span class="icon-dark">☾</span>
+      <span class="icon-light">○</span>
+      <span class="icon-dark">●</span>
     </button>
     <div class="lang-select">
       <select
@@ -63,6 +63,7 @@ const langLabels: Record<Locale, string> = { zh: '中文', en: 'English', ja: '�
     color: var(--text2);
     text-decoration: none;
     transition: color 0.2s;
+    flex-shrink: 0;
   }
 
   .logo:hover { color: var(--accent); }
@@ -70,13 +71,13 @@ const langLabels: Record<Locale, string> = { zh: '中文', en: 'English', ja: '�
   .nav-right {
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 1.25rem;
   }
 
   ul {
     list-style: none;
     display: flex;
-    gap: 2rem;
+    gap: 1.25rem;
   }
 
   ul a {
@@ -91,6 +92,7 @@ const langLabels: Record<Locale, string> = { zh: '中文', en: 'English', ja: '�
 
   .lang-select {
     position: relative;
+    flex-shrink: 0;
   }
 
   select {
@@ -118,10 +120,11 @@ const langLabels: Record<Locale, string> = { zh: '中文', en: 'English', ja: '�
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: var(--text2);
     padding: 0.2rem;
     line-height: 1;
+    flex-shrink: 0;
     transition: color 0.15s;
   }
 
@@ -140,29 +143,31 @@ const langLabels: Record<Locale, string> = { zh: '中文', en: 'English', ja: '�
     color: var(--text2);
     pointer-events: none;
   }
+
+  @media (max-width: 640px) {
+    ul { display: none; }
+    .nav-right { gap: 0.75rem; }
+  }
 </style>
 
 <script>
-  (function () {
-    const saved = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const theme = saved || (prefersDark ? 'dark' : 'light');
-    document.documentElement.setAttribute('data-theme', theme);
-  })();
-
-  document.getElementById('theme-toggle')?.addEventListener('click', () => {
-    const current = document.documentElement.getAttribute('data-theme');
-    const next = current === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
-    const giscusFrame = document.querySelector<HTMLIFrameElement>('.giscus-frame');
-    if (giscusFrame) {
-      giscusFrame.contentWindow?.postMessage(
-        { giscus: { setConfig: { theme: next === 'dark' ? 'dark' : 'light' } } },
-        'https://giscus.app'
-      );
-    }
-  });
+  function initNav() {
+    const btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      const giscusFrame = document.querySelector<HTMLIFrameElement>('.giscus-frame');
+      if (giscusFrame) {
+        giscusFrame.contentWindow?.postMessage(
+          { giscus: { setConfig: { theme: next === 'dark' ? 'dark' : 'light' } } },
+          'https://giscus.app'
+        );
+      }
+    });
+  }
 
   function syncLangSelect() {
     const select = document.querySelector<HTMLSelectElement>('.lang-select select');
@@ -175,5 +180,7 @@ const langLabels: Record<Locale, string> = { zh: '中文', en: 'English', ja: '�
       if (optLang === lang) { select.value = val; break; }
     }
   }
+
+  document.addEventListener('astro:page-load', initNav);
   window.addEventListener('pageshow', syncLangSelect);
 </script>
