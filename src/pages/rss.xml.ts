@@ -7,7 +7,7 @@ export async function GET(context: APIContext) {
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
   return rss({
-    title: '余白',
+    title: 'Lacuna',
     description: '记录技术与生活的碎片，写给自己也写给路过的人。',
     site: context.site!,
     items: posts.map((post) => ({

@@ -5,7 +5,7 @@ export const defaultLocale: Locale = 'zh';
 
 export const t = {
   zh: {
-    siteTitle: '余白',
+    siteTitle: 'Lacuna',
     hero: {
       title: ['慢慢试试，', '找找感觉'],
       titleAccent: 1,
@@ -23,12 +23,11 @@ export const t = {
       empty: '还没有笔记。',
       stages: { seedling: '萌芽', budding: '生长', evergreen: '常青' },
     },
-    pages: { blog: '博客', garden: '花园', now: '近况', about: '关于' },
-    footer: { tagline: '余白' },
+    footer: { tagline: 'Lacuna' },
     lang: { zh: '中文', en: 'English', ja: '日本語' },
   },
   en: {
-    siteTitle: '余白',
+    siteTitle: 'Lacuna',
     hero: {
       title: ['Taking it ', 'slow,'],
       subtitle: 'finding the feel.',
@@ -47,12 +46,11 @@ export const t = {
       empty: 'No notes yet.',
       stages: { seedling: 'Seedling', budding: 'Budding', evergreen: 'Evergreen' },
     },
-    pages: { blog: 'Blog', garden: 'Garden', now: 'Now', about: 'About' },
-    footer: { tagline: '余白' },
+    footer: { tagline: 'Lacuna' },
     lang: { zh: '中文', en: 'English', ja: '日本語' },
   },
   ja: {
-    siteTitle: '余白',
+    siteTitle: 'Lacuna',
     hero: {
       title: ['ゆっくりと、', '感覚を探して'],
       titleAccent: 1,
@@ -70,8 +68,7 @@ export const t = {
       empty: 'まだノートがありません。',
       stages: { seedling: '芽生え', budding: '成長中', evergreen: '常緑' },
     },
-    pages: { blog: 'ブログ', garden: 'ガーデン', now: '近況', about: 'について' },
-    footer: { tagline: '余白' },
+    footer: { tagline: 'Lacuna' },
     lang: { zh: '中文', en: 'English', ja: '日本語' },
   },
 } as const;

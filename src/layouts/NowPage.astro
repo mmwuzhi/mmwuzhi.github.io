@@ -1,11 +1,10 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
-import { type Locale, useTranslations } from '../i18n/translations';
+import { type Locale } from '../i18n/translations';
 
 interface Props { locale: Locale; }
 const { locale } = Astro.props;
-const tr = useTranslations(locale);
 
 const entries = await getCollection('now', ({ data }) => data.lang === locale);
 const entry = entries[0];
@@ -17,7 +16,7 @@ const updatedStr = entry?.data.updated.toLocaleDateString(
 );
 ---
 
-<BaseLayout {locale} title={`${tr.pages.now} — 余白`}>
+<BaseLayout {locale} title="Now — Lacuna">
   <div class="page" lang={locale}>
     <div class="rule"></div>
     <h1>Now</h1>

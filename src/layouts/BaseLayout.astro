@@ -10,7 +10,7 @@ interface Props {
   description?: string;
 }
 
-const { locale, title = '余白', description = '' } = Astro.props;
+const { locale, title = 'Lacuna', description = '' } = Astro.props;
 const currentPath = new URL(Astro.request.url).pathname;
 ---
 
@@ -27,7 +27,7 @@ const currentPath = new URL(Astro.request.url).pathname;
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={Astro.url} />
-    <meta property="og:site_name" content="余白" />
+    <meta property="og:site_name" content="Lacuna" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />

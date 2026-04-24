@@ -24,7 +24,7 @@ const byYear = allPosts.reduce<Record<number, typeof allPosts>>((acc, p) => {
 const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
 ---
 
-<BaseLayout {locale} title={`${tr.pages.blog} — 余白`}>
+<BaseLayout {locale} title="Blog — Lacuna">
   <div class="page">
     <div class="rule"></div>
     <h1>Blog</h1>
