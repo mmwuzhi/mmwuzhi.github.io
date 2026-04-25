@@ -5,6 +5,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 <BaseLayout locale="ja" title="検索 — Lacuna">
   <Fragment slot="head">
     <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+    <script is:inline src="/pagefind/pagefind-ui.js"></script>
   </Fragment>
   <div class="page" data-pagefind-ignore>
     <div class="rule"></div>
@@ -13,14 +14,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   </div>
 </BaseLayout>
 
-<script is:inline>
-  (async () => {
+<script>
+  document.addEventListener('astro:page-load', () => {
     const el = document.getElementById('search');
     if (!el) return;
     // @ts-ignore
-    const { PagefindUI } = await import('/pagefind/pagefind-ui.js');
     new PagefindUI({ element: '#search', showImages: false, resetStyles: false });
-  })();
+  });
 </script>
 
 <style>
