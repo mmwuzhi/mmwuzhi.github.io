@@ -19,7 +19,18 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     const el = document.getElementById('search');
     if (!el) return;
     // @ts-ignore
-    new PagefindUI({ element: '#search', showImages: false, resetStyles: false });
+    new PagefindUI({
+      element: '#search',
+      showImages: false,
+      resetStyles: false,
+      translations: {
+        placeholder: '記事やノートを検索…',
+        zero_results: '「[SEARCH_TERM]」の検索結果はありません',
+        many_results: '「[SEARCH_TERM]」の検索結果：[COUNT]件',
+        one_result: '「[SEARCH_TERM]」の検索結果：1件',
+        searching: '「[SEARCH_TERM]」を検索中…',
+      },
+    });
   });
 </script>
 

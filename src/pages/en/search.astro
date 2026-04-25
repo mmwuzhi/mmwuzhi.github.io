@@ -19,7 +19,18 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     const el = document.getElementById('search');
     if (!el) return;
     // @ts-ignore
-    new PagefindUI({ element: '#search', showImages: false, resetStyles: false });
+    new PagefindUI({
+      element: '#search',
+      showImages: false,
+      resetStyles: false,
+      translations: {
+        placeholder: 'Search posts and notes…',
+        zero_results: 'No results for "[SEARCH_TERM]"',
+        many_results: '[COUNT] results for "[SEARCH_TERM]"',
+        one_result: '1 result for "[SEARCH_TERM]"',
+        searching: 'Searching for "[SEARCH_TERM]"…',
+      },
+    });
   });
 </script>
 

@@ -19,7 +19,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     const el = document.getElementById('search');
     if (!el) return;
     // @ts-ignore
-    new PagefindUI({ element: '#search', showImages: false, resetStyles: false });
+    new PagefindUI({
+      element: '#search',
+      showImages: false,
+      resetStyles: false,
+      translations: {
+        placeholder: '搜索文章和笔记…',
+        zero_results: '没有找到「[SEARCH_TERM]」的相关内容',
+        many_results: '「[SEARCH_TERM]」共 [COUNT] 条结果',
+        one_result: '「[SEARCH_TERM]」共 1 条结果',
+        searching: '正在搜索「[SEARCH_TERM]」…',
+      },
+    });
   });
 </script>
 
