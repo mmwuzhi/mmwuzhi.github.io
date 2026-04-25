@@ -41,6 +41,7 @@ const currentPath = new URL(Astro.request.url).pathname;
         document.documentElement.setAttribute('data-theme', s || (d ? 'dark' : 'light'));
       })();
     </script>
+    <slot name="head" />
     <script is:inline>
       (function () {
         var path = location.pathname;
@@ -58,10 +59,10 @@ const currentPath = new URL(Astro.request.url).pathname;
   </head>
   <body>
     <Nav locale={locale} currentPath={currentPath} />
-    <main>
+    <main data-pagefind-body>
       <slot />
     </main>
-    <footer>
+    <footer data-pagefind-ignore>
       <div class="footer-links">
         <a href="/rss.xml">RSS</a>
       </div>

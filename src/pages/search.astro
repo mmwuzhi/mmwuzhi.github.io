@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout locale="zh" title="搜索 — Lacuna">
+  <Fragment slot="head">
+    <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+  </Fragment>
+  <div class="page" data-pagefind-ignore>
+    <div class="rule"></div>
+    <h1>搜索</h1>
+    <div id="search"></div>
+  </div>
+</BaseLayout>
+
+<script is:inline>
+  window.addEventListener('DOMContentLoaded', async () => {
+    // @ts-ignore
+    const { PagefindUI } = await import('/pagefind/pagefind-ui.js');
+    new PagefindUI({ element: '#search', showImages: false, resetStyles: false });
+  });
+</script>
+
+<style>
+  .page {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 5rem var(--page-x) 6rem;
+  }
+
+  .rule { width: 28px; height: 2px; background: var(--accent); margin-bottom: 2rem; }
+
+  h1 { font-size: 1.5rem; margin-bottom: 2rem; }
+
+  #search {
+    --pagefind-ui-scale: 0.9;
+    --pagefind-ui-primary: var(--accent);
+    --pagefind-ui-text: var(--text);
+    --pagefind-ui-background: var(--bg);
+    --pagefind-ui-border: var(--border);
+    --pagefind-ui-font: var(--sans);
+  }
+</style>

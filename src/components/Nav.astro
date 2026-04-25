@@ -22,6 +22,12 @@ const langLabels: Record<Locale, string> = { zh: '中文', en: 'English', ja: '�
       <li><a href={getLocalePath(locale, 'about')}>About</a></li>
       <li><a href="https://github.com/mmwuzhi" target="_blank" rel="noopener">GitHub</a></li>
     </ul>
+    <a href={getLocalePath(locale, 'search')} class="search-link" aria-label="Search">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="m21 21-4.35-4.35"/>
+      </svg>
+    </a>
     <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
       <span class="icon-light">☀️</span>
       <span class="icon-dark">🌙</span>
@@ -51,6 +57,7 @@ const langLabels: Record<Locale, string> = { zh: '中文', en: 'English', ja: '�
     <a href={getLocalePath(locale, 'garden')}>Garden</a>
     <a href={getLocalePath(locale, 'now')}>Now</a>
     <a href={getLocalePath(locale, 'about')}>About</a>
+    <a href={getLocalePath(locale, 'search')}>Search</a>
     <a href="https://github.com/mmwuzhi" target="_blank" rel="noopener">GitHub</a>
   </div>
 </nav>
@@ -128,6 +135,16 @@ const langLabels: Record<Locale, string> = { zh: '中文', en: 'English', ja: '�
     border-color: var(--accent);
     color: var(--accent);
   }
+
+  .search-link {
+    display: flex;
+    align-items: center;
+    color: var(--text2);
+    flex-shrink: 0;
+    transition: color 0.15s;
+  }
+
+  .search-link:hover { color: var(--accent); }
 
   .theme-toggle {
     background: none;
