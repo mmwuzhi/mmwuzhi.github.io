@@ -14,11 +14,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 </BaseLayout>
 
 <script is:inline>
-  window.addEventListener('DOMContentLoaded', async () => {
+  (async () => {
+    const el = document.getElementById('search');
+    if (!el) return;
     // @ts-ignore
     const { PagefindUI } = await import('/pagefind/pagefind-ui.js');
     new PagefindUI({ element: '#search', showImages: false, resetStyles: false });
-  });
+  })();
 </script>
 
 <style>
