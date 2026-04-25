@@ -3,6 +3,7 @@ import BaseLayout from './BaseLayout.astro';
 import Giscus from '../components/Giscus.astro';
 import { useTranslations, getLocalePath, type Locale } from '../i18n/translations';
 import { estimateReadingTime } from '../utils/readingTime';
+import { buildToc } from '../utils/toc';
 import type { PostStub } from '../utils/adjacentPosts';
 
 interface Props {
@@ -13,9 +14,11 @@ interface Props {
   body: string;
   prev?: PostStub | null;
   next?: PostStub | null;
+  headings?: { depth: number; slug: string; text: string }[];
 }
 
-const { locale, title, date, category, body, prev = null, next = null } = Astro.props;
+const { locale, title, date, category, body, prev = null, next = null, headings = [] } = Astro.props;
+const toc = buildToc(headings);
 const readingTime = estimateReadingTime(body, locale);
 const tr = useTranslations(locale);
 
@@ -33,6 +36,18 @@ const dateStr = date.toLocaleDateString(
       <h1>{title}</h1>
       <div class="meta">{dateStr} · {category} · {readingTime}</div>
     </div>
+    {toc.length >= 3 && (
+      <nav class="toc" aria-label="Table of contents">
+        <div class="toc-title">Contents</div>
+        <ol>
+          {toc.map((item) => (
+            <li class={item.depth === 3 ? 'toc-sub' : ''}>
+              <a href={`#${item.slug}`}>{item.text}</a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )}
     <div class="prose">
       <slot />
     </div>
@@ -97,6 +112,46 @@ const dateStr = date.toLocaleDateString(
     letter-spacing: 0.05em;
     margin-bottom: 3rem;
     font-family: var(--sans);
+  }
+
+  .toc {
+    margin-bottom: 3rem;
+    padding: 1.25rem 1.5rem;
+    border-left: 2px solid var(--accent);
+    background: none;
+  }
+
+  .toc-title {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-family: var(--sans);
+    color: var(--text2);
+    margin-bottom: 0.75rem;
+  }
+
+  .toc ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .toc li a {
+    font-size: 0.875rem;
+    color: var(--text2);
+    text-decoration: none;
+    transition: color 0.15s;
+    line-height: 1.4;
+  }
+
+  .toc li a:hover { color: var(--accent); }
+
+  .toc li.toc-sub a {
+    font-size: 0.8rem;
+    padding-left: 1rem;
   }
 
   .adjacent {
