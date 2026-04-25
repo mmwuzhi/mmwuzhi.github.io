@@ -96,6 +96,7 @@ const currentPath = new URL(Astro.request.url).pathname;
 
   .footer-links a:hover { color: var(--accent); }
 
+  /* dialog hidden by default; only show when open */
   dialog {
     border: none;
     border-radius: 6px;
@@ -105,10 +106,13 @@ const currentPath = new URL(Astro.request.url).pathname;
     width: min(640px, 92vw);
     max-height: 80vh;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
     box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
     margin: 8vh auto auto;
+  }
+
+  dialog[open] {
+    display: flex;
+    flex-direction: column;
   }
 
   dialog::backdrop {
@@ -164,27 +168,32 @@ const currentPath = new URL(Astro.request.url).pathname;
     },
   };
 
-  let pagefindReady = false;
+  // Resolved once the pagefind script is loaded; null until first open
+  let pagefindScriptPromise: Promise<void> | null = null;
+  let pagefindUIReady = false;
 
-  async function ensurePagefind() {
-    if (pagefindReady) return;
-    pagefindReady = true;
+  function loadPagefindScript(): Promise<void> {
+    if (pagefindScriptPromise) return pagefindScriptPromise;
+    pagefindScriptPromise = new Promise<void>((resolve, reject) => {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = '/pagefind/pagefind-ui.css';
+      document.head.appendChild(link);
 
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = '/pagefind/pagefind-ui.css';
-    document.head.appendChild(link);
-
-    await new Promise<void>((resolve) => {
       const script = document.createElement('script');
       script.src = '/pagefind/pagefind-ui.js';
       script.onload = () => resolve();
+      script.onerror = () => reject(new Error('Failed to load pagefind-ui.js'));
       document.head.appendChild(script);
     });
+    return pagefindScriptPromise;
+  }
 
+  function initPagefindUI() {
+    if (pagefindUIReady) return;
+    pagefindUIReady = true;
     const path = location.pathname;
     const locale = path.startsWith('/en') ? 'en' : path.startsWith('/ja') ? 'ja' : 'zh';
-
     // @ts-ignore
     new PagefindUI({
       element: '#search-ui',
@@ -194,13 +203,19 @@ const currentPath = new URL(Astro.request.url).pathname;
     });
   }
 
-  function openSearch() {
+  async function openSearch() {
     const modal = document.getElementById('search-modal') as HTMLDialogElement | null;
     if (!modal) return;
-    ensurePagefind().then(() => {
-      modal.showModal();
-      setTimeout(() => modal.querySelector<HTMLInputElement>('input')?.focus(), 50);
-    });
+    try {
+      await loadPagefindScript();
+    } catch (e) {
+      console.error(e);
+      return;
+    }
+    // Show modal first so #search-ui is visible before PagefindUI renders into it
+    modal.showModal();
+    initPagefindUI();
+    setTimeout(() => modal.querySelector<HTMLInputElement>('input')?.focus(), 50);
   }
 
   function closeSearch() {
