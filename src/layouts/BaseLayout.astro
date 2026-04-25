@@ -68,6 +68,13 @@ const currentPath = new URL(Astro.request.url).pathname;
         <a href="https://github.com/mmwuzhi" target="_blank" rel="noopener">GitHub</a>
       </div>
     </footer>
+
+    <dialog id="search-modal" aria-label="Search" data-pagefind-ignore>
+      <div class="search-inner">
+        <button class="search-close" id="search-close" aria-label="Close search">✕</button>
+        <div id="search-ui"></div>
+      </div>
+    </dialog>
   </body>
 </html>
 
@@ -88,4 +95,126 @@ const currentPath = new URL(Astro.request.url).pathname;
   }
 
   .footer-links a:hover { color: var(--accent); }
+
+  dialog {
+    border: none;
+    border-radius: 6px;
+    background: var(--bg);
+    color: var(--text);
+    padding: 0;
+    width: min(640px, 92vw);
+    max-height: 80vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
+    margin: 8vh auto auto;
+  }
+
+  dialog::backdrop {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+  }
+
+  .search-inner {
+    display: flex;
+    flex-direction: column;
+    padding: 1.25rem 1.5rem 1.5rem;
+    overflow-y: auto;
+  }
+
+  .search-close {
+    align-self: flex-end;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--text2);
+    padding: 0.1rem 0.25rem;
+    line-height: 1;
+    margin-bottom: 0.75rem;
+    transition: color 0.15s;
+  }
+
+  .search-close:hover { color: var(--accent); }
 </style>
+
+<script>
+  const translations: Record<string, Record<string, string>> = {
+    zh: {
+      placeholder: '搜索文章和笔记…',
+      zero_results: '没有找到「[SEARCH_TERM]」的相关内容',
+      many_results: '「[SEARCH_TERM]」共 [COUNT] 条结果',
+      one_result: '「[SEARCH_TERM]」共 1 条结果',
+      searching: '正在搜索「[SEARCH_TERM]」…',
+    },
+    en: {
+      placeholder: 'Search posts and notes…',
+      zero_results: 'No results for "[SEARCH_TERM]"',
+      many_results: '[COUNT] results for "[SEARCH_TERM]"',
+      one_result: '1 result for "[SEARCH_TERM]"',
+      searching: 'Searching for "[SEARCH_TERM]"…',
+    },
+    ja: {
+      placeholder: '記事やノートを検索…',
+      zero_results: '「[SEARCH_TERM]」の検索結果はありません',
+      many_results: '「[SEARCH_TERM]」の検索結果：[COUNT]件',
+      one_result: '「[SEARCH_TERM]」の検索結果：1件',
+      searching: '「[SEARCH_TERM]」を検索中…',
+    },
+  };
+
+  let pagefindReady = false;
+
+  async function ensurePagefind() {
+    if (pagefindReady) return;
+    pagefindReady = true;
+
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = '/pagefind/pagefind-ui.css';
+    document.head.appendChild(link);
+
+    await new Promise<void>((resolve) => {
+      const script = document.createElement('script');
+      script.src = '/pagefind/pagefind-ui.js';
+      script.onload = () => resolve();
+      document.head.appendChild(script);
+    });
+
+    const path = location.pathname;
+    const locale = path.startsWith('/en') ? 'en' : path.startsWith('/ja') ? 'ja' : 'zh';
+
+    // @ts-ignore
+    new PagefindUI({
+      element: '#search-ui',
+      showImages: false,
+      resetStyles: false,
+      translations: translations[locale],
+    });
+  }
+
+  function openSearch() {
+    const modal = document.getElementById('search-modal') as HTMLDialogElement | null;
+    if (!modal) return;
+    ensurePagefind().then(() => {
+      modal.showModal();
+      setTimeout(() => modal.querySelector<HTMLInputElement>('input')?.focus(), 50);
+    });
+  }
+
+  function closeSearch() {
+    (document.getElementById('search-modal') as HTMLDialogElement | null)?.close();
+  }
+
+  // Backdrop click closes modal
+  document.getElementById('search-modal')?.addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) closeSearch();
+  });
+
+  // Wire up buttons on each navigation (DOM may be re-rendered)
+  document.addEventListener('astro:page-load', () => {
+    document.getElementById('search-open')?.addEventListener('click', openSearch);
+    document.getElementById('search-close')?.addEventListener('click', closeSearch);
+  });
+</script>
