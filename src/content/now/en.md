@@ -1,20 +1,19 @@
 ---
-updated: 2026-04-22
+updated: 2026-04-25
 lang: en
 ---
 
-Based in Shanghai.
+Based in Tokyo.
 
-**Working on**
+**Currently**
 
-- Rebuilding this site from React to Astro — filling in features I'd been putting off
-- Learning Rust, still early days
-- Reading *Disconnected* by Lü Xinyu, slowly
+- React Native development and infra work
+- Leaning into AI tooling to keep up with the pace — it's actually been fun
+
+**Watching**
+
+NHK taiga dramas — *Toyotomi Kyoudai!* and *Onna Taikōki*.
 
 **Listening to**
 
-Lo-fi and some older Japanese music.
-
-**Generally**
-
-Okay. More interested in doing a few things well than doing many things.
+ずっと真夜中でいいのに (ZUTOMAYO).
