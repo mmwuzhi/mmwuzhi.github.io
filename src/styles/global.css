@@ -45,7 +45,7 @@
   :root { --page-x: 1.25rem; }
 }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
 
 body {
   background: var(--bg);
