@@ -270,7 +270,7 @@ const langLabels: Record<Locale, string> = { zh: '中文', en: 'English', ja: '�
         const giscusFrame = document.querySelector<HTMLIFrameElement>('.giscus-frame');
         if (giscusFrame) {
           giscusFrame.contentWindow?.postMessage(
-            { giscus: { setConfig: { theme: next === 'dark' ? 'dark' : 'light' } } },
+            { giscus: { setConfig: { theme: next === 'dark' ? 'noborder_dark' : 'noborder_light' } } },
             'https://giscus.app'
           );
         }
