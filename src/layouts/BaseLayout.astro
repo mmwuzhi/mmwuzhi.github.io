@@ -8,9 +8,11 @@ interface Props {
   locale: Locale;
   title?: string;
   description?: string;
+  ogImage?: string;
 }
 
-const { locale, title = 'Lacuna', description = '' } = Astro.props;
+const { locale, title = 'Lacuna', description = '', ogImage } = Astro.props;
+const ogImageUrl = new URL(ogImage ?? '/og-default.svg', Astro.site).href;
 const currentPath = new URL(Astro.request.url).pathname;
 ---
 
@@ -28,9 +30,11 @@ const currentPath = new URL(Astro.request.url).pathname;
     <meta property="og:type" content="website" />
     <meta property="og:url" content={Astro.url} />
     <meta property="og:site_name" content="Lacuna" />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
     <link rel="alternate" hreflang="zh" href="https://mmwuzhi.dev/" />
     <link rel="alternate" hreflang="en" href="https://mmwuzhi.dev/en/" />
     <link rel="alternate" hreflang="ja" href="https://mmwuzhi.dev/ja/" />
