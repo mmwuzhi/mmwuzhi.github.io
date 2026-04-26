@@ -30,17 +30,17 @@ describe('getLocalePath', () => {
 describe('useTranslations', () => {
   it('returns zh hero description', () => {
     const tr = useTranslations('zh');
-    expect(tr.hero.description).toContain('记录');
+    expect(tr.hero.description).toContain('随手记录');
   });
 
   it('returns en hero description', () => {
     const tr = useTranslations('en');
-    expect(tr.hero.description).toContain('technology');
+    expect(tr.hero.description).toContain('Notes to self');
   });
 
   it('returns ja hero description', () => {
     const tr = useTranslations('ja');
-    expect(tr.hero.description).toContain('技術');
+    expect(tr.hero.description).toContain('書き留めておく');
   });
 });
 
