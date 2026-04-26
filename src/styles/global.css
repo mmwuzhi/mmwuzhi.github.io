@@ -21,7 +21,7 @@
   }
 
   .prose code,
-  .prose pre { background: #211e17; }
+  .prose pre { background: #211e17 !important; }
 }
 
 [data-theme='dark'] {
@@ -32,7 +32,7 @@
 }
 
 [data-theme='dark'] .prose code,
-[data-theme='dark'] .prose pre { background: #211e17; }
+[data-theme='dark'] .prose pre { background: #211e17 !important; }
 
 [data-theme='light'] {
   --bg: #faf7f2;
