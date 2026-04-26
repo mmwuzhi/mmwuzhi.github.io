@@ -104,14 +104,8 @@ const currentPath = new URL(Astro.request.url).pathname;
     color: var(--text);
     padding: 0;
     width: min(640px, 92vw);
-    max-height: 80vh;
     box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
     margin: 8vh auto auto;
-  }
-
-  dialog[open] {
-    display: flex;
-    flex-direction: column;
   }
 
   dialog::backdrop {
@@ -122,9 +116,9 @@ const currentPath = new URL(Astro.request.url).pathname;
   .search-inner {
     display: flex;
     flex-direction: column;
-    flex: 1;
-    min-height: 0;
+    max-height: 80vh;
     overflow-y: auto;
+    box-sizing: border-box;
     padding: 1.25rem 1.5rem 1.5rem;
   }
 
