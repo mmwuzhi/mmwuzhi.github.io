@@ -73,6 +73,8 @@ const currentPath = new URL(Astro.request.url).pathname;
       </div>
     </footer>
 
+    <button id="back-to-top" aria-label="Back to top" data-pagefind-ignore>↑</button>
+
     <dialog id="search-modal" aria-label="Search" data-pagefind-ignore>
       <div class="search-inner">
         <button class="search-close" id="search-close" aria-label="Close search">✕</button>
@@ -99,6 +101,28 @@ const currentPath = new URL(Astro.request.url).pathname;
   }
 
   .footer-links a:hover { color: var(--accent); }
+
+  #back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text2);
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s, color 0.15s, border-color 0.15s;
+    z-index: 9;
+  }
+
+  #back-to-top.visible { opacity: 1; pointer-events: auto; }
+  #back-to-top:hover { color: var(--accent); border-color: var(--accent); }
 
   /* dialog hidden by default; only show when open */
   dialog {
@@ -216,4 +240,13 @@ const currentPath = new URL(Astro.request.url).pathname;
       if (e.target === e.currentTarget) closeSearch();
     });
   });
+
+  // Back to top
+  const backToTop = document.getElementById('back-to-top');
+  if (backToTop) {
+    window.addEventListener('scroll', () => {
+      backToTop.classList.toggle('visible', window.scrollY > 300);
+    }, { passive: true });
+    backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  }
 </script>
