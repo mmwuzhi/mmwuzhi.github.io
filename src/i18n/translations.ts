@@ -9,7 +9,7 @@ export const t = {
     hero: {
       title: ['慢慢试试，', '找找感觉'],
       titleAccent: 1,
-      description: '记录技术与生活的碎片，写给自己也写给路过的人。',
+      description: '随手记录。',
     },
     posts: {
       header: 'Recent Posts',
@@ -32,7 +32,7 @@ export const t = {
       title: ['Taking it ', 'slow,'],
       subtitle: 'finding the feel.',
       titleAccent: 1,
-      description: 'Notes on technology and everyday life — written for myself, and for anyone who passes by.',
+      description: 'Notes to self.',
     },
     posts: {
       header: 'Recent Posts',
@@ -54,7 +54,7 @@ export const t = {
     hero: {
       title: ['ゆっくりと、', '感覚を探して'],
       titleAccent: 1,
-      description: '技術と日常の断片を記録する。自分のために、そして通りすがりの誰かのために。',
+      description: '書き留めておく。',
     },
     posts: {
       header: 'Recent Posts',
