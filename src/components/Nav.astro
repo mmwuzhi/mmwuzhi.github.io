@@ -42,7 +42,9 @@ const langLabels: Record<Locale, string> = { zh: '中文', en: 'English', ja: '�
           </option>
         ))}
       </select>
-      <span class="arrow" aria-hidden="true">▾</span>
+      <svg class="arrow" aria-hidden="true" width="10" height="6" viewBox="0 0 10 6" fill="none">
+        <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
     </div>
     <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
       <span class="bar"></span>
@@ -170,9 +172,9 @@ const langLabels: Record<Locale, string> = { zh: '中文', en: 'English', ja: '�
     right: 0.5rem;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 0.6rem;
     color: var(--text2);
     pointer-events: none;
+    display: block;
   }
 
   /* Hamburger */

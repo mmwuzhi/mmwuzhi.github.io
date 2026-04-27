@@ -25,9 +25,9 @@ const allTags = [...new Set(allNotes.flatMap((n) => n.data.tags))].sort();
     <div class="rule"></div>
     <h1>Garden</h1>
     <p class="intro">
-      {locale === 'zh' && '笔记的花园——有些成熟，有些还在生长，有些刚刚萌芽。'}
-      {locale === 'en' && 'A garden of notes — some mature, some growing, some just planted.'}
-      {locale === 'ja' && 'ノートの庭 — 成熟したもの、育ちつつあるもの、まだ芽吹いたばかりのもの。'}
+      {locale === 'zh' && '萌芽。生长。成熟。'}
+      {locale === 'en' && 'Seedling. Growing. Evergreen.'}
+      {locale === 'ja' && '芽吹き。成長。成熟。'}
     </p>
 
     {allTags.length > 0 && (
