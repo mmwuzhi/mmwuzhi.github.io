@@ -197,6 +197,26 @@ const dateStr = date.toLocaleDateString(
 
   .prose pre { position: relative; }
 
+  .prose h2, .prose h3, .prose h4 { scroll-margin-top: 5rem; }
+
+  .heading-anchor {
+    margin-left: 0.35em;
+    color: var(--border);
+    text-decoration: none;
+    font-weight: normal;
+    font-style: normal;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+    font-size: 0.8em;
+    user-select: none;
+  }
+
+  .prose h2:hover .heading-anchor,
+  .prose h3:hover .heading-anchor,
+  .prose h4:hover .heading-anchor { opacity: 1; }
+
+  .heading-anchor:hover { color: var(--accent); }
+
   .copy-btn {
     position: absolute;
     top: 0.5rem;
@@ -219,6 +239,18 @@ const dateStr = date.toLocaleDateString(
 </style>
 
 <script>
+  function attachHeadingAnchors() {
+    document.querySelectorAll('.prose h2, .prose h3, .prose h4').forEach((h) => {
+      if (!h.id || h.querySelector('.heading-anchor')) return;
+      const a = document.createElement('a');
+      a.className = 'heading-anchor';
+      a.href = `#${h.id}`;
+      a.setAttribute('aria-label', 'Link to section');
+      a.textContent = '#';
+      h.appendChild(a);
+    });
+  }
+
   function attachCopyButtons() {
     document.querySelectorAll('.prose pre').forEach((pre) => {
       if (pre.querySelector('.copy-btn')) return;
@@ -235,5 +267,8 @@ const dateStr = date.toLocaleDateString(
       pre.appendChild(btn);
     });
   }
-  document.addEventListener('astro:page-load', attachCopyButtons);
+  document.addEventListener('astro:page-load', () => {
+    attachHeadingAnchors();
+    attachCopyButtons();
+  });
 </script>

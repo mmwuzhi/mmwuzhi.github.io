@@ -18,11 +18,11 @@ export default defineConfig({
     AstroPWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: '余白',
-        short_name: '余白',
-        description: '记录技术与生活的碎片',
-        theme_color: '#faf7f4',
-        background_color: '#faf7f4',
+        name: 'Lacuna',
+        short_name: 'Lacuna',
+        description: 'Notes to self.',
+        theme_color: '#faf7f2',
+        background_color: '#faf7f2',
         display: 'standalone',
         start_url: '/',
         icons: [
