@@ -183,13 +183,15 @@ const currentPath = new URL(Astro.request.url).pathname;
   let pagefindScriptPromise: Promise<void> | null = null;
 
   function loadPagefindScript(): Promise<void> {
-    if (pagefindScriptPromise) return pagefindScriptPromise;
-    pagefindScriptPromise = new Promise<void>((resolve, reject) => {
+    // Re-inject CSS if View Transitions removed it from <head>
+    if (!document.querySelector('link[href="/pagefind/pagefind-ui.css"]')) {
       const link = document.createElement('link');
       link.rel = 'stylesheet';
       link.href = '/pagefind/pagefind-ui.css';
       document.head.appendChild(link);
-
+    }
+    if (pagefindScriptPromise) return pagefindScriptPromise;
+    pagefindScriptPromise = new Promise<void>((resolve, reject) => {
       const script = document.createElement('script');
       script.src = '/pagefind/pagefind-ui.js';
       script.onload = () => resolve();
