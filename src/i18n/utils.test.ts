@@ -12,7 +12,7 @@ describe('switchLangPath', () => {
     });
 
     it('stays zh (returns /) on root', () => {
-      expect(switchLangPath('zh', 'zh', '/')).toBe('/zh');
+      expect(switchLangPath('zh', 'zh', '/')).toBe('/');
     });
 
     it('switches to en on a blog post', () => {
