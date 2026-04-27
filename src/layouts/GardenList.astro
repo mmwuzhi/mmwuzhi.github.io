@@ -7,7 +7,7 @@ interface Props { locale: Locale; }
 const { locale } = Astro.props;
 const tr = useTranslations(locale);
 
-const stageOrder = ['evergreen', 'budding', 'seedling'] as const;
+const stageOrder = ['seedling', 'budding', 'evergreen'] as const;
 const stageIcon = { evergreen: '🌲', budding: '🌿', seedling: '🌱' };
 
 const allNotes = (await getCollection('garden', ({ data }) => data.lang === locale))
