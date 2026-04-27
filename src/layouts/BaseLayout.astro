@@ -9,11 +9,12 @@ interface Props {
   title?: string;
   description?: string;
   ogImage?: string;
+  navPath?: string;
 }
 
-const { locale, title = 'Lacuna', description = '', ogImage } = Astro.props;
+const { locale, title = 'Lacuna', description = '', ogImage, navPath } = Astro.props;
 const ogImageUrl = new URL(ogImage ?? '/og-default.svg', Astro.site).href;
-const currentPath = new URL(Astro.request.url).pathname;
+const currentPath = navPath ?? new URL(Astro.request.url).pathname;
 ---
 
 <!doctype html>
