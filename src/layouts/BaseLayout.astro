@@ -243,7 +243,6 @@ const currentPath = new URL(Astro.request.url).pathname;
     // #search-ui is fresh after each View Transitions navigation; only init when empty
     if (!isSearchUIEmpty(el)) return;
     const locale = detectLocale(location.pathname);
-    // @ts-ignore
     new PagefindUI({
       element: '#search-ui',
       showImages: false,
