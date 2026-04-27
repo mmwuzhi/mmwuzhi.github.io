@@ -175,21 +175,23 @@ const currentPath = new URL(Astro.request.url).pathname;
     --pagefind-ui-font: var(--sans);
   }
 
-  /* Fix result overflow: constrain flex children */
-  #search-ui .pagefind-ui__result-inner {
+  /* pagefind elements are dynamically injected; use :global() to escape Astro CSS scoping */
+
+  /* Fix result overflow */
+  #search-ui :global(.pagefind-ui__result-inner) {
     min-width: 0;
     width: 100%;
   }
 
-  #search-ui .pagefind-ui__result-title,
-  #search-ui .pagefind-ui__result-excerpt {
+  #search-ui :global(.pagefind-ui__result-title),
+  #search-ui :global(.pagefind-ui__result-excerpt) {
     max-width: 100%;
     word-break: break-word;
     overflow-wrap: break-word;
   }
 
   /* Clear button: replace "Clear" text with × */
-  #search-ui .pagefind-ui__search-clear {
+  #search-ui :global(.pagefind-ui__search-clear) {
     font-size: 0;
     background: var(--bg);
     border: none;
@@ -201,14 +203,14 @@ const currentPath = new URL(Astro.request.url).pathname;
     justify-content: center;
   }
 
-  #search-ui .pagefind-ui__search-clear::after {
+  #search-ui :global(.pagefind-ui__search-clear::after) {
     content: '×';
     font-size: 1.1rem;
     line-height: 1;
     font-family: var(--sans);
   }
 
-  #search-ui .pagefind-ui__search-clear:hover { color: var(--accent); }
+  #search-ui :global(.pagefind-ui__search-clear:hover) { color: var(--accent); }
 </style>
 
 <script>
