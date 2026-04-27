@@ -175,16 +175,37 @@ const currentPath = new URL(Astro.request.url).pathname;
     --pagefind-ui-font: var(--sans);
   }
 
+  /* Fix result overflow: constrain flex children */
+  #search-ui .pagefind-ui__result-inner {
+    min-width: 0;
+    width: 100%;
+  }
+
+  #search-ui .pagefind-ui__result-title,
+  #search-ui .pagefind-ui__result-excerpt {
+    max-width: 100%;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* Clear button: replace "Clear" text with × */
   #search-ui .pagefind-ui__search-clear {
-    background: none;
+    font-size: 0;
+    background: var(--bg);
     border: none;
-    padding: 0 0.5rem;
-    font-size: 0.8rem;
     color: var(--text2);
     cursor: pointer;
     transition: color 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #search-ui .pagefind-ui__search-clear::after {
+    content: '×';
+    font-size: 1.1rem;
+    line-height: 1;
     font-family: var(--sans);
-    font-weight: normal;
   }
 
   #search-ui .pagefind-ui__search-clear:hover { color: var(--accent); }
