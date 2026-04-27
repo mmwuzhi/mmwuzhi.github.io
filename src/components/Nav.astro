@@ -31,20 +31,20 @@ const langLabels: Record<Locale, string> = { zh: '中文', en: 'English', ja: '�
       <span class="icon-light">☀️</span>
       <span class="icon-dark">🌙</span>
     </button>
-    <div class="lang-select">
-      <select
-        aria-label="Language"
-        onchange="var l=this.value.startsWith('/en')?'en':this.value.startsWith('/ja')?'ja':'zh';localStorage.setItem('preferred-lang',l);location.href=this.value"
-      >
+    <div class="lang-select" id="lang-select">
+      <button class="lang-btn" id="lang-btn" aria-haspopup="listbox" aria-expanded="false">
+        <span id="lang-label">{langLabels[locale]}</span>
+        <svg aria-hidden="true" width="10" height="6" viewBox="0 0 10 6" fill="none">
+          <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <ul class="lang-dropdown" id="lang-dropdown" role="listbox" aria-label="Language">
         {locales.map((l) => (
-          <option value={switchLangPath(locale, l, currentPath)} selected={l === locale}>
-            {langLabels[l]}
-          </option>
+          <li role="option" aria-selected={l === locale}>
+            <a href={switchLangPath(locale, l, currentPath)} data-lang={l}>{langLabels[l]}</a>
+          </li>
         ))}
-      </select>
-      <svg class="arrow" aria-hidden="true" width="10" height="6" viewBox="0 0 10 6" fill="none">
-        <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+      </ul>
     </div>
     <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
       <span class="bar"></span>
@@ -114,8 +114,10 @@ const langLabels: Record<Locale, string> = { zh: '中文', en: 'English', ja: '�
     flex-shrink: 0;
   }
 
-  select {
-    appearance: none;
+  .lang-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
     background: transparent;
     border: 1px solid var(--border);
     border-radius: 3px;
@@ -123,17 +125,50 @@ const langLabels: Record<Locale, string> = { zh: '中文', en: 'English', ja: '�
     font-family: var(--sans);
     font-size: 0.75rem;
     letter-spacing: 0.06em;
-    padding: 0.28rem 1.75rem 0.28rem 0.65rem;
+    padding: 0.28rem 0.65rem;
     cursor: pointer;
-    outline: none;
+    height: 1.85rem;
     min-width: 5.5rem;
     transition: border-color 0.15s, color 0.15s;
+    white-space: nowrap;
   }
 
-  select:hover {
+  .lang-btn:hover,
+  .lang-btn[aria-expanded='true'] {
     border-color: var(--accent);
     color: var(--accent);
   }
+
+  .lang-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    list-style: none;
+    padding: 0.25rem 0;
+    min-width: 100%;
+    z-index: 20;
+  }
+
+  .lang-dropdown.open { display: block; }
+
+  .lang-dropdown li a {
+    display: block;
+    padding: 0.4rem 0.9rem;
+    font-size: 0.78rem;
+    font-family: var(--sans);
+    color: var(--text2);
+    text-decoration: none;
+    transition: color 0.15s;
+    white-space: nowrap;
+  }
+
+  .lang-dropdown li[aria-selected='true'] a { color: var(--accent); }
+  .lang-dropdown li a:hover { color: var(--accent); }
 
   .search-btn {
     display: flex;
@@ -167,15 +202,6 @@ const langLabels: Record<Locale, string> = { zh: '中文', en: 'English', ja: '�
   :global([data-theme='dark']) .icon-light { display: none; }
   :global([data-theme='dark']) .icon-dark { display: inline; }
 
-  .arrow {
-    position: absolute;
-    right: 0.5rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text2);
-    pointer-events: none;
-    display: block;
-  }
 
   /* Hamburger */
   .menu-toggle {
@@ -245,7 +271,7 @@ const langLabels: Record<Locale, string> = { zh: '中文', en: 'English', ja: '�
     if (theme) (e as any).newDocument.documentElement.setAttribute('data-theme', theme);
   });
 
-  // Close mobile menu on outside click (registered once at module level)
+  // Close menus on outside click (registered once at module level)
   document.addEventListener('click', (e) => {
     const mobileNav = document.getElementById('mobile-nav');
     const menuBtn = document.getElementById('menu-toggle');
@@ -257,6 +283,17 @@ const langLabels: Record<Locale, string> = { zh: '中文', en: 'English', ja: '�
       mobileNav.classList.remove('open');
       mobileNav.setAttribute('aria-hidden', 'true');
       menuBtn?.setAttribute('aria-expanded', 'false');
+    }
+
+    const langDropdown = document.getElementById('lang-dropdown');
+    const langBtn = document.getElementById('lang-btn');
+    if (
+      langDropdown?.classList.contains('open') &&
+      !langDropdown.contains(e.target as Node) &&
+      !langBtn?.contains(e.target as Node)
+    ) {
+      langDropdown.classList.remove('open');
+      langBtn?.setAttribute('aria-expanded', 'false');
     }
   });
 
@@ -290,20 +327,25 @@ const langLabels: Record<Locale, string> = { zh: '中文', en: 'English', ja: '�
         mobileNav.setAttribute('aria-hidden', String(!isOpen));
       });
     }
-  }
 
-  function syncLangSelect() {
-    const select = document.querySelector<HTMLSelectElement>('.lang-select select');
-    if (!select) return;
-    const path = location.pathname;
-    const lang = path.startsWith('/en') ? 'en' : path.startsWith('/ja') ? 'ja' : 'zh';
-    for (const opt of select.options) {
-      const val = opt.value;
-      const optLang = val.startsWith('/en') ? 'en' : val.startsWith('/ja') ? 'ja' : 'zh';
-      if (optLang === lang) { select.value = val; break; }
+    // Language dropdown
+    const langBtn = document.getElementById('lang-btn');
+    const langDropdown = document.getElementById('lang-dropdown');
+    if (langBtn && langDropdown) {
+      langBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = langDropdown.classList.toggle('open');
+        langBtn.setAttribute('aria-expanded', String(isOpen));
+      });
+
+      langDropdown.querySelectorAll('a').forEach((a) => {
+        a.addEventListener('click', () => {
+          const lang = (a as HTMLAnchorElement).dataset.lang ?? '';
+          if (lang) localStorage.setItem('preferred-lang', lang);
+        });
+      });
     }
   }
 
   document.addEventListener('astro:page-load', initNav);
-  window.addEventListener('pageshow', syncLangSelect);
 </script>
