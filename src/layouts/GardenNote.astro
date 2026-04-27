@@ -32,7 +32,9 @@ const updatedStr = updated.toLocaleDateString(
         <span class="stage">{stageIcon[stage]} {tr.garden.stages[stage]}</span>
         <span class="sep">·</span>
         <span>{tr.garden.updated} {updatedStr}</span>
-        {tags.map((tag) => <span class="tag">{tag}</span>)}
+        {tags.map((tag) => (
+          <a href={`${getLocalePath(locale, 'garden')}?tag=${encodeURIComponent(tag)}`} class="tag">{tag}</a>
+        ))}
       </div>
     </div>
 
@@ -85,7 +87,9 @@ const updatedStr = updated.toLocaleDateString(
   .tag {
     background: var(--border); border-radius: 2px;
     padding: 0.1rem 0.5rem; font-size: 0.7rem; letter-spacing: 0.05em;
+    text-decoration: none; color: var(--text2); transition: background 0.15s, color 0.15s;
   }
+  .tag:hover { background: var(--accent); color: #fff; }
 
   .backlinks {
     margin-top: 4rem;
