@@ -21,7 +21,7 @@ export const t = {
       backlinks: '被以下笔记引用',
       updated: '更新于',
       empty: '还没有笔记。',
-      stages: { seedling: '萌芽', budding: '生长', evergreen: '常青' },
+      stages: { seedling: '萌芽', budding: '生长', evergreen: '成熟' },
     },
     footer: { tagline: 'Lacuna' },
     lang: { zh: '中文', en: 'English', ja: '日本語' },
