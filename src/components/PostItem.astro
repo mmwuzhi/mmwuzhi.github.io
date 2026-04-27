@@ -11,10 +11,7 @@ interface Props {
 
 const { title, date, category, href, locale } = Astro.props;
 
-const dateStr = date.toLocaleDateString(
-  locale === 'zh' ? 'zh-CN' : locale === 'ja' ? 'ja-JP' : 'en-US',
-  { year: 'numeric', month: '2-digit' }
-);
+const dateStr = `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}`;
 ---
 
 <a href={href} class="post-item" lang={locale}>
@@ -51,18 +48,18 @@ const dateStr = date.toLocaleDateString(
 
   :lang(zh) .title {
     font-family: var(--serif);
-    font-size: 1.05rem;
+    font-size: 1rem;
   }
 
   :lang(en) .title {
     font-family: var(--sans);
     font-weight: 500;
-    font-size: 0.975rem;
+    font-size: 1rem;
   }
 
   :lang(ja) .title {
     font-family: var(--sans);
     font-weight: 600;
-    font-size: 0.975rem;
+    font-size: 1rem;
   }
 </style>
