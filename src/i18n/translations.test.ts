@@ -44,6 +44,29 @@ describe('useTranslations', () => {
   });
 });
 
+describe('translation structure parity', () => {
+  it('all locales have the same garden.stages keys', () => {
+    const stageKeys = (locale: 'zh' | 'en' | 'ja') =>
+      Object.keys(useTranslations(locale).garden.stages).sort();
+    expect(stageKeys('en')).toEqual(stageKeys('zh'));
+    expect(stageKeys('ja')).toEqual(stageKeys('zh'));
+  });
+
+  it('all locales have the same posts keys', () => {
+    const postKeys = (locale: 'zh' | 'en' | 'ja') =>
+      Object.keys(useTranslations(locale).posts).sort();
+    expect(postKeys('en')).toEqual(postKeys('zh'));
+    expect(postKeys('ja')).toEqual(postKeys('zh'));
+  });
+
+  it('all locales have the same garden keys', () => {
+    const gardenKeys = (locale: 'zh' | 'en' | 'ja') =>
+      Object.keys(useTranslations(locale).garden).sort();
+    expect(gardenKeys('en')).toEqual(gardenKeys('zh'));
+    expect(gardenKeys('ja')).toEqual(gardenKeys('zh'));
+  });
+});
+
 describe('locales / defaultLocale', () => {
   it('has exactly 3 locales', () => {
     expect(locales).toHaveLength(3);

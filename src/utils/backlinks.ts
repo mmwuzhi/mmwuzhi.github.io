@@ -10,7 +10,8 @@ export interface Backlink {
 }
 
 export function findBacklinks(notes: NoteStub[], currentSlug: string): Backlink[] {
+  const pattern = new RegExp(`/garden/${currentSlug}(?![\\w-])`);
   return notes
-    .filter((n) => n.postSlug !== currentSlug && n.body.includes(`/garden/${currentSlug}`))
+    .filter((n) => n.postSlug !== currentSlug && pattern.test(n.body))
     .map(({ postSlug, title }) => ({ postSlug, title }));
 }

@@ -29,6 +29,16 @@ describe('estimateReadingTime', () => {
     });
   });
 
+  describe('edge cases', () => {
+    it('returns zh minimum for empty string', () => {
+      expect(estimateReadingTime('', 'zh')).toBe('约 1 分钟');
+    });
+
+    it('returns ja minimum for empty string', () => {
+      expect(estimateReadingTime('', 'ja')).toBe('約 1 分');
+    });
+  });
+
   describe('English (en)', () => {
     it('returns at least 1 minute for short text', () => {
       expect(estimateReadingTime('hello', 'en')).toBe('1 min read');

@@ -31,4 +31,21 @@ describe('findBacklinks', () => {
   it('returns empty array for unknown slug', () => {
     expect(findBacklinks(notes, 'nonexistent')).toHaveLength(0);
   });
+
+  it('does not match slug as a prefix of a longer slug', () => {
+    const prefixNotes = [
+      { postSlug: 'alpha', title: 'Alpha', body: 'standalone' },
+      { postSlug: 'alpha-extended', title: 'Alpha Extended', body: 'see [this](/garden/alpha-extended)' },
+      { postSlug: 'other', title: 'Other', body: 'links to [Alpha Extended](/garden/alpha-extended)' },
+    ];
+    expect(findBacklinks(prefixNotes, 'alpha')).toHaveLength(0);
+  });
+
+  it('matches slug followed by ) correctly', () => {
+    const mdNotes = [
+      { postSlug: 'target', title: 'Target', body: 'see [Target](/garden/target)' },
+      { postSlug: 'source', title: 'Source', body: 'check [this](/garden/target)' },
+    ];
+    expect(findBacklinks(mdNotes, 'target').map((r) => r.postSlug)).toEqual(['source']);
+  });
 });

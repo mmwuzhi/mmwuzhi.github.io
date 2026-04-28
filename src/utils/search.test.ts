@@ -26,6 +26,18 @@ describe('detectLocale', () => {
   it('does not match /enjoy as en', () => {
     expect(detectLocale('/enjoy')).toBe('zh');
   });
+
+  it('does not match /english as en', () => {
+    expect(detectLocale('/english')).toBe('zh');
+  });
+
+  it('does not match /japan as ja', () => {
+    expect(detectLocale('/japan')).toBe('zh');
+  });
+
+  it('does not match /janitor as ja', () => {
+    expect(detectLocale('/janitor')).toBe('zh');
+  });
 });
 
 describe('isSearchUIEmpty', () => {

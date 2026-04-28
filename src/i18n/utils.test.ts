@@ -42,6 +42,20 @@ describe('switchLangPath', () => {
     });
   });
 
+  describe('same locale (no-op)', () => {
+    it('en stays on same path', () => {
+      expect(switchLangPath('en', 'en', '/en/blog/my-post')).toBe('/en/blog/my-post');
+    });
+
+    it('ja stays on same path', () => {
+      expect(switchLangPath('ja', 'ja', '/ja/garden/note')).toBe('/ja/garden/note');
+    });
+
+    it('zh stays on same path', () => {
+      expect(switchLangPath('zh', 'zh', '/blog/my-post')).toBe('/blog/my-post');
+    });
+  });
+
   describe('from ja', () => {
     it('switches to zh on /ja', () => {
       expect(switchLangPath('ja', 'zh', '/ja')).toBe('/');
