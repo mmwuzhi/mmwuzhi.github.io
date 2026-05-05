@@ -4,11 +4,11 @@ This file documents the repository structure, conventions, and workflows for AI 
 
 ## Repository Overview
 
-This is the source repository for **余白** (Margins), a personal blog and homepage accessible at **mmwuzhi.dev**. It is an Astro static site with TypeScript, trilingual support (Chinese / English / Japanese), and GitHub Pages deployment.
+This is the source repository for **Lacuna** (余白), a personal blog and homepage accessible at **mmwuzhi.dev**. It is an Astro static site with TypeScript, trilingual support (Chinese / English / Japanese), and GitHub Pages deployment.
 
 - **Live URL**: https://mmwuzhi.dev
 - **GitHub Repo**: mmwuzhi/mmwuzhi.github.io
-- **Site name**: 余白
+- **Site name**: Lacuna / 余白
 - **Default language**: Chinese (zh), with /en/ and /ja/ routes
 
 ## Technology Stack
@@ -20,6 +20,8 @@ This is the source repository for **余白** (Margins), a personal blog and home
 | Styling | Plain CSS (component-scoped) |
 | i18n | Astro built-in i18n, 3 locales |
 | Content | Astro Content Collections (Markdown) |
+| Search | Pagefind (post-build index) |
+| PWA | @vite-pwa/astro |
 | Hosting | GitHub Pages |
 | Custom domain | `mmwuzhi.dev` (via `public/CNAME`) |
 
@@ -29,38 +31,61 @@ This is the source repository for **余白** (Margins), a personal blog and home
 mmwuzhi.github.io/
 ├── src/
 │   ├── components/
+│   │   ├── Giscus.astro        # Comment system (GitHub Discussions)
 │   │   ├── Hero.astro          # Homepage hero, lang-aware typography
-│   │   ├── Nav.astro           # Sticky nav + language dropdown
+│   │   ├── Nav.astro           # Sticky nav + custom language dropdown
 │   │   ├── PostItem.astro      # Single post row with left-border hover
 │   │   └── PostList.astro      # Post list section with header
 │   ├── content/
-│   │   └── blog/               # Markdown posts (*.zh.md / *.en.md / *.ja.md)
+│   │   ├── blog/               # *.zh.md / *.en.md / *.ja.md
+│   │   ├── garden/             # Digital garden notes (*.zh.md etc.)
+│   │   └── now/                # Now page content (zh.md / en.md / ja.md)
 │   ├── i18n/
-│   │   └── translations.ts     # All UI strings for zh / en / ja
+│   │   ├── translations.ts     # All UI strings for zh / en / ja
+│   │   └── utils.ts            # switchLangPath() for locale-aware routing
 │   ├── layouts/
-│   │   └── BaseLayout.astro    # HTML shell: Nav + slot + Footer
+│   │   ├── BaseLayout.astro    # HTML shell: Nav + slot + Footer + search modal
+│   │   ├── BlogPost.astro      # Single blog post layout
+│   │   ├── GardenList.astro    # Garden index layout
+│   │   └── GardenNote.astro    # Single garden note layout
 │   ├── pages/
-│   │   ├── index.astro         # / (Chinese, default)
-│   │   ├── en/index.astro      # /en/
-│   │   └── ja/index.astro      # /ja/
+│   │   ├── 404.astro
+│   │   ├── about.astro         # /about (zh)
+│   │   ├── index.astro         # / (zh)
+│   │   ├── now.astro           # /now (zh)
+│   │   ├── rss.xml.ts          # RSS feed
+│   │   ├── blog/               # /blog index + [slug].astro
+│   │   ├── garden/             # /garden index + [slug].astro
+│   │   ├── en/                 # /en/* mirrors
+│   │   └── ja/                 # /ja/* mirrors
 │   ├── styles/
 │   │   └── global.css          # CSS variables, reset, lang-specific type rules
-│   └── content.config.ts       # Content collection schema
+│   ├── utils/
+│   │   ├── adjacentPosts.ts    # Prev/next post navigation
+│   │   ├── backlinks.ts        # Garden note backlink detection
+│   │   ├── filterPosts.ts      # Filter posts by lang/category
+│   │   ├── readingTime.ts      # Estimated reading time (lang-aware)
+│   │   ├── search.ts           # Pagefind locale detection + translations
+│   │   └── toc.ts              # Table of contents extraction
+│   ├── content.config.ts       # Content collection schemas
+│   └── env.d.ts                # TypeScript ambient declarations (PagefindUI)
 ├── public/
 │   ├── CNAME                   # Custom domain: mmwuzhi.dev
-│   ├── robots.txt
 │   ├── favicon.ico
-│   └── favicon.svg
+│   ├── favicon.svg
+│   ├── og.png                  # Default Open Graph image
+│   └── robots.txt
 ├── astro.config.mjs
 ├── package.json
-└── tsconfig.json
+├── tsconfig.json
+└── DESIGN.md                   # Visual design reference
 ```
 
 ## Typography Rules
 
 Typography varies by language — this is intentional:
 
-| Language | Title font | Body font |
+| Language | Headings | Body |
 |---|---|---|
 | 中文 (zh) | Serif (Georgia / Noto Serif SC) | Sans-serif |
 | English (en) | Sans-serif, weight 600 | Serif |
@@ -73,6 +98,7 @@ Accent color `#b85c22` is applied to `<em>` in hero titles across all languages.
 - Default locale `zh` has no URL prefix (`/`)
 - English at `/en/`, Japanese at `/ja/`
 - All UI strings live in `src/i18n/translations.ts`
+- `switchLangPath(from, to, currentPath)` in `src/i18n/utils.ts` handles URL conversion between locales
 - Blog posts are separate Markdown files per language, identified by `lang` frontmatter field
 
 ### Adding a blog post
@@ -91,18 +117,80 @@ slug: your-slug
 
 Same `slug` value across language files links them as translations of each other.
 
+### Adding a garden note
+
+Create `src/content/garden/<slug>.<lang>.md` with frontmatter:
+
+```markdown
+---
+title: 笔记标题
+date: 2026-04-19
+stage: seedling   # seedling | budding | evergreen
+tags: [idea, dev]
+lang: zh
+slug: your-slug
+---
+```
+
+Garden notes support backlinks: if note A links to `/garden/B`, note B's page shows A in its "Referenced by" section.
+
 ## Development
 
 ```bash
 pnpm install
 pnpm dev      # dev server at localhost:4321
-pnpm build    # static build → dist/
+pnpm build    # static build → dist/ + Pagefind search index
+pnpm test     # run unit tests (Vitest)
 pnpm preview  # preview dist/ locally
 ```
+
+Always run `pnpm test` before merging to the main branch.
 
 ## Deployment
 
 Build output goes to `dist/`. GitHub Pages serves from the `master` branch root — deployment requires copying `dist/*` to the repo root and pushing, or via GitHub Actions (not yet configured).
+
+## Key Architecture Decisions
+
+### Astro CSS Scoping
+
+Astro's `<style>` blocks scope rules by appending `[data-astro-cid-xxx]` to the **last selector segment**. Elements injected at runtime (e.g. Pagefind UI) don't carry this attribute, so scoped rules silently fail.
+
+Use `:global()` for any CSS targeting dynamically injected elements:
+
+```css
+/* works */
+#search-ui :global(.pagefind-ui__search-clear) { font-size: 0; }
+
+/* broken — Pagefind elements have no astro-cid attribute */
+#search-ui .pagefind-ui__search-clear { font-size: 0; }
+```
+
+### Astro View Transitions
+
+`ClientRouter` (View Transitions) does a head swap on navigation, which removes dynamically injected `<link>` elements — including the Pagefind CSS. Additionally, `pagefindScriptPromise` stays non-null, so the promise guard short-circuits before CSS can be re-injected.
+
+Fix: check for the CSS `<link>` on every `loadPagefindScript()` call and re-inject if absent, regardless of promise state.
+
+`astro:page-load` fires after each navigation and is the correct event to hook for re-initialising client-side state.
+
+### i18n Routing
+
+- zh: no prefix → `/`, `/blog/slug`
+- en: `/en`, `/en/blog/slug`
+- ja: `/ja`, `/ja/blog/slug`
+
+All path conversions go through `switchLangPath(from, to, currentPath)` in `src/i18n/utils.ts`. When `from === to`, it returns `currentPath` unchanged (prevents 404 on same-locale switch).
+
+### Backlinks
+
+`findBacklinks` in `src/utils/backlinks.ts` uses a regex with a negative lookahead `(?![\w-])` instead of `String.includes()` to avoid false positives where one slug is a prefix of another (e.g. `alpha` matching `alpha-extended`).
+
+## Workflow Rules
+
+- **Always run `pnpm test` before merging to main.** Tests catch regressions in routing, translation parity, and utility functions.
+- **Do not delete or overwrite content without explicit user confirmation.**
+- **Separate commits by feature** — one logical change per commit.
 
 ## Development Branch Convention
 
