@@ -202,7 +202,7 @@ Example: `claude/add-claude-documentation-0L8S4`
 
 ## Git Commit Conventions
 
-Informal, often Chinese. No enforced format — keep messages concise.
+English only. Informal, no enforced format — keep messages concise.
 
 ## Sensitive Files
 
