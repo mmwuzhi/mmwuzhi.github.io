@@ -103,7 +103,7 @@ Accent color `#b85c22` is applied to `<em>` in hero titles across all languages.
 
 ### Adding a blog post
 
-Create `src/content/blog/<slug>.<lang>.md` with frontmatter:
+Create `src/content/blog/<postSlug>.<lang>.md` with frontmatter:
 
 ```markdown
 ---
@@ -111,28 +111,75 @@ title: 文章标题
 date: 2026-04-19
 category: 技术
 lang: zh
-slug: your-slug
+postSlug: your-slug
 ---
 ```
 
-Same `slug` value across language files links them as translations of each other.
+Same `postSlug` value across language files links them as translations of each other.
 
 ### Adding a garden note
 
-Create `src/content/garden/<slug>.<lang>.md` with frontmatter:
+Create `src/content/garden/<postSlug>.<lang>.md` with frontmatter:
 
 ```markdown
 ---
 title: 笔记标题
-date: 2026-04-19
+created: 2026-04-19
+updated: 2026-04-19
 stage: seedling   # seedling | budding | evergreen
 tags: [idea, dev]
 lang: zh
-slug: your-slug
+postSlug: your-slug
 ---
 ```
 
 Garden notes support backlinks: if note A links to `/garden/B`, note B's page shows A in its "Referenced by" section.
+
+### Updating the now page
+
+Edit one of the three files in `src/content/now/` (`zh.md`, `en.md`, `ja.md`). Frontmatter:
+
+```markdown
+---
+updated: 2026-04-19
+lang: zh
+---
+```
+
+No slug — one file per locale, rendered at `/now`, `/en/now`, `/ja/now`.
+
+## Content Schemas
+
+Source of truth: `src/content.config.ts`.
+
+**Blog**
+
+| Field | Type | Notes |
+|---|---|---|
+| `title` | string | |
+| `date` | date | |
+| `category` | string | |
+| `lang` | `zh\|en\|ja` | |
+| `postSlug` | string | same value across locales links translations |
+
+**Garden**
+
+| Field | Type | Notes |
+|---|---|---|
+| `title` | string | |
+| `created` | date | |
+| `updated` | date | |
+| `stage` | `seedling\|budding\|evergreen` | |
+| `tags` | string[] | optional, defaults to `[]` |
+| `lang` | `zh\|en\|ja` | |
+| `postSlug` | string | |
+
+**Now**
+
+| Field | Type |
+|---|---|
+| `updated` | date |
+| `lang` | `zh\|en\|ja` |
 
 ## Development
 
@@ -148,7 +195,7 @@ Always run `pnpm test` before merging to the main branch.
 
 ## Deployment
 
-Build output goes to `dist/`. GitHub Pages serves from the `master` branch root — deployment requires copying `dist/*` to the repo root and pushing, or via GitHub Actions (not yet configured).
+Push to `main` — GitHub Actions builds the site and deploys to GitHub Pages automatically via `.github/workflows/deploy.yml`.
 
 ## Key Architecture Decisions
 
