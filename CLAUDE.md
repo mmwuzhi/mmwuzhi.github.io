@@ -193,6 +193,8 @@ pnpm preview  # preview dist/ locally
 
 Always run `pnpm test` before merging to the main branch.
 
+**Pagefind doesn't work in `pnpm dev`.** The search index is only generated during `pnpm build`, so the search modal will appear empty (or fail to load) when running `pnpm dev`. To test search end-to-end locally, run `pnpm build && pnpm preview`.
+
 ## Deployment
 
 Push to `main` — GitHub Actions builds the site and deploys to GitHub Pages automatically via `.github/workflows/deploy.yml`.
@@ -233,7 +235,23 @@ All path conversions go through `switchLangPath(from, to, currentPath)` in `src/
 
 `findBacklinks` in `src/utils/backlinks.ts` uses a regex with a negative lookahead `(?![\w-])` instead of `String.includes()` to avoid false positives where one slug is a prefix of another (e.g. `alpha` matching `alpha-extended`).
 
-## Workflow Rules
+### BaseLayout inline scripts
+
+`src/layouts/BaseLayout.astro` contains two `<script is:inline>` blocks in `<head>` that run **synchronously before paint**. Both are intentional — do not move them out of head or wrap in deferred loading.
+
+- **Theme FOUC prevention** — reads `localStorage('theme')` (values `'dark'` / `'light'`), falls back to `prefers-color-scheme`, then sets `data-theme` on `<html>`. Must run before body renders to avoid a flash of the wrong theme.
+- **Home-page language redirect** — only fires on `/`, `/en/`, `/ja/`. Reads `localStorage('preferred-lang')` (set by the lang dropdown in `Nav.astro`), falls back to `navigator.language`. If the stored/preferred locale doesn't match the current URL, it calls `location.replace()` to redirect. A first-time visit from a Japanese browser will land on `/ja/` automatically — this is by design.
+
+## Testing & Workflow
+
+### Testing scope
+
+- Tests live in `src/utils/*.test.ts` and `src/i18n/*.test.ts` (Vitest)
+- They cover **pure utility functions only** — routing, translations, reading time, backlinks, TOC, filtering, etc.
+- Astro components, layouts, and pages are **not** tested. There is no E2E or visual regression coverage.
+- Passing tests means utility correctness, **not** feature correctness. For UI changes, build and preview manually before merging.
+
+### Workflow rules
 
 - **Always run `pnpm test` before merging to main.** Tests catch regressions in routing, translation parity, and utility functions.
 - **Do not delete or overwrite content without explicit user confirmation.**
